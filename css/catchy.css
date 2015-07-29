@@ -1,8 +1,15 @@
+.hide-footer .reveal .footer {
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+}
+
 .reveal .footer {
   position: absolute;
   bottom: 1em;
   left: 1em;
   font-size: 2vh;
+  opacity:1;
+  transition: opacity .25s ease-in-out;
 }
 
 .reveal .footer span {
@@ -15,8 +22,15 @@ img#logo {
     vertical-align: middle;
 }
 
-#forkongithub a { opacity: 0; transition: opacity .25s ease-in-out; }
-.show-github-ribbon #forkongithub a { opacity:1; transition: opacity .25s ease-in-out; }
+#forkongithub a {
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+}
+
+.show-github-ribbon #forkongithub a {
+    opacity:1;
+    transition: opacity .25s ease-in-out;
+}
 
 #forkongithub a {
     background:#000;
