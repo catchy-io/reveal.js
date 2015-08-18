@@ -1,0 +1,1784 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>PHP Data Structures (and the impact of PHP 7 on them) - Northeast PHP Conference 2015, Boston, USA</title>
+
+        <meta name="description" content="Presentation of 'PHP Data Structures (and the impact of PHP 7 on them)' by Patrick Allaert at Northeast PHP Conference 2015 in Boston (USA).">
+        <meta name="author" content="Patrick Allaert">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+
+        <link rel="stylesheet" href="css/catchy.css">
+        <link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+            var allCharts = [];
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    </head>
+
+    <body class="php data structures boston" itemscope itemtype="http://schema.org/TechArticle">
+        <meta itemprop="datePublished" content="2015-08-17"/>
+        <meta itemprop="headline" content="Presentation of 'PHP Data Structures (and the impact of PHP 7 on them)' by Patrick Allaert at Northeast PHP Conference 2015 in Boston (USA)."/>
+        <meta itemprop="image" content="img/data-structures/presentation_thumbnail.jpg" />
+        <meta itemprop="thumbnailUrl" content="img/data-structures/presentation_thumbnail.jpg" />
+        <div itemprop="publication" itemscope itemtype="http://schema.org/PublicationEvent">
+            <meta itemprop="name" content="PHP Data Structures (and the impact of PHP 7 on them)"/>
+            <meta itemprop="startDate" content="2015-08-22T10:30:00-05:00"/>
+            <meta itemprop="endDate" content="2015-08-22T11:30:00-05:00"/>
+            <meta itemprop="url" content="http://2015.northeastphp.org/session/php-data-structures-and-the-impact-of-php-7-on-them/"/>
+            <meta itemprop="duration" content="PT1H"/>
+            <meta itemprop="inLanguage" content="en"/>
+            <div itemprop="superEvent" itemscope itemtype="http://schema.org/EducationEvent">
+                <meta itemprop="name" content="Northeast PHP Conference"/>
+                <meta itemprop="startDate" content="2015-08-22"/>
+                <meta itemprop="endDate" content="2015-08-23"/>
+                <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+                    <meta itemprop="name" content="Microsoft NERD Centre"/>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <meta itemprop="name" content="Microsoft New England Research and Development Center"/>
+                        <meta itemprop="streetAddress" content="1 Memorial Drive #1, MA 02142, "/>
+                        <meta itemprop="addressLocality" content="Cambridge"/>
+                        <meta itemprop="addressRegion" content="MA"/>
+                        <meta itemprop="addressCountry" content="USA"/>
+                    </div>
+                </div>
+                <div itemprop="organizer" itemscope itemtype="http://schema.org/Organization">
+                    <meta itemprop="name" content="Northeast PHP"/>
+                    <meta itemprop="url" content="http://northeastphp.org/"/>
+                </div>
+            </div>
+        </div>
+        <div class="reveal">
+            <div class="slides">
+                <section class="first">
+                    <h1 itemprop="name">PHP Data Structures<br/>(and the impact of PHP 7 on them)</h1>
+                </section>
+
+                <section data-background="lib/img/logo/catchy.io.background.png" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <meta itemprop="email" content="patrickallaert@php.net"/>
+                    <meta itemprop="image" content="https://pbs.twimg.com/profile_images/344513261567775460/348b5193864dc076fac43a9141e36ceb.jpeg"/>
+                    <h2>Hello, I'm <span itemprop="givenName">Patrick</span> <span itemprop="familyName">Allaert</span></h2>
+                    <p><a href="https://twitter.com/patrick_allaert/">@patrick_allaert</a>, <span itemprop="jobTitle">CTO</span> of <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><meta itemprop="logo" content="lib/img/logo/catchy.io.logo.png"/><a href="http://catchy.io/" itemprop="url"><span itemprop="name">catchy</span></a></span>.</p>
+                    <ul class="fragment">
+                        <li>Dealing with PHP/Linux for +15 years</li>
+                        <li>Author of the PECL extension: <a href="https://pecl.php.net/package/APM">APM for PHP</a></li>
+                        <li><a href="http://ez.no/">eZ Publish</a> core developer</li>
+                        <li>PHP internals contributor</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>PHP native datatypes</h2>
+                    <ul>
+                        <li>NULL</li>
+                        <li>Booleans</li>
+                        <li>Integers</li>
+                        <li>Floating point numbers</li>
+                        <li>Strings</li>
+                        <li>Arrays</li>
+                        <li>Objects</li>
+                        <li>Resources</li>
+                    </ul>
+                </section>
+
+                <section class="wikipedia datatypes">
+                    <div>
+                        <ul>
+                            <li>2-3-4 tree</li>
+                            <li>2-3 heap</li>
+                            <li>2-3 tree</li>
+                            <li>AA tree</li>
+                            <li>Abstract syntax tree</li>
+                            <li>(a,b)-tree</li>
+                            <li>Adaptive k-d tree</li>
+                            <li>Adjacency list</li>
+                            <li>Adjacency matrix</li>
+                            <li>AF-heap</li>
+                            <li>Alternating decision tree</li>
+                            <li>And-inverter graph</li>
+                            <li>And–or tree</li>
+                            <li>Array</li>
+                            <li>AVL tree</li>
+                            <li>Beap</li>
+                            <li>Bidirectional map</li>
+                            <li>Bin</li>
+                            <li>Binary decision diagram</li>
+                            <li>Binary heap</li>
+                            <li>Binary search tree</li>
+                            <li>Binary tree</li>
+                            <li>Binomial heap</li>
+                            <li>Bit array</li>
+                            <li>Bitboard</li>
+                            <li>Bit field</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Bitmap</li>
+                            <li>BK-tree</li>
+                            <li>Bloom filter</li>
+                            <li>Boolean</li>
+                            <li>Bounding interval hierarchy</li>
+                            <li>B sharp tree</li>
+                            <li>BSP tree</li>
+                            <li>B-tree</li>
+                            <li>B*-tree</li>
+                            <li>B+ tree</li>
+                            <li>B-trie</li>
+                            <li>Bx-tree</li>
+                            <li>Cartesian tree</li>
+                            <li>Char</li>
+                            <li>Circular buffer</li>
+                            <li>Compressed suffix array</li>
+                            <li>Container</li>
+                            <li>Control table</li>
+                            <li>Cover tree</li>
+                            <li>Ctrie</li>
+                            <li>Dancing tree</li>
+                            <li>D-ary heap</li>
+                            <li>Decision tree</li>
+                            <li>Deque</li>
+                            <li>Directed acyclic graph</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Directed graph</li>
+                            <li>Disjoint-set</li>
+                            <li>Distributed hash table</li>
+                            <li>Double</li>
+                            <li>Doubly connected edge list</li>
+                            <li>Doubly linked list</li>
+                            <li>Dynamic array</li>
+                            <li>Enfilade</li>
+                            <li>Enumerated type</li>
+                            <li>Expectiminimax tree</li>
+                            <li>Exponential tree</li>
+                            <li>Fenwick tree</li>
+                            <li>Fibonacci heap</li>
+                            <li>Finger tree</li>
+                            <li>Float</li>
+                            <li>FM-index</li>
+                            <li>Fusion tree</li>
+                            <li>Gap buffer</li>
+                            <li>Generalised suffix tree</li>
+                            <li>Graph</li>
+                            <li>Graph-structured stack</li>
+                            <li>Hash</li>
+                            <li>Hash array mapped trie</li>
+                            <li>Hashed array tree</li>
+                            <li>Hash list</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Heightmap</li>
+                            <li>Hilbert R-tree</li>
+                            <li>Hypergraph</li>
+                            <li>Iliffe vector</li>
+                            <li>Image</li>
+                            <li>Implicit kd-tree</li>
+                            <li>Interval tree</li>
+                            <li>Int</li>
+                            <li>Judy array</li>
+                            <li>Kdb tree</li>
+                            <li>Kd-tree</li>
+                            <li>Koorde</li>
+                            <li>Leftist heap</li>
+                            <li>Lightmap</li>
+                            <li>Linear octree</li>
+                            <li>Link/cut tree</li>
+                            <li>Linked list</li>
+                            <li>Lookup table</li>
+                            <li>Map/Associative array/Dictionary</li>
+                            <li>Matrix</li>
+                            <li>Metric tree</li>
+                            <li>Minimax tree</li>
+                            <li>Min/max kd-tree</li>
+                            <li>M-tree</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Multigraph</li>
+                            <li>Multimap</li>
+                            <li>Multiset</li>
+                            <li>Octree</li>
+                            <li>Pagoda</li>
+                            <li>Pairing heap</li>
+                            <li>Parallel array</li>
+                            <li>Parse tree</li>
+                            <li>Plain old data structure</li>
+                            <li>Prefix hash tree</li>
+                            <li>Priority queue</li>
+                            <li>Propositional directed acyclic graph</li>
+                            <li>Quad-edge</li>
+                            <li>Quadtree</li>
+                            <li>Queap</li>
+                            <li>Queue</li>
+                            <li>Radix tree</li>
+                            <li>Randomized binary search tree</li>
+                            <li>Range tree</li>
+                            <li>Rapidly-exploring random tree</li>
+                            <li>Record (also called tuple or struct)</li>
+                            <li>Red-black tree</li>
+                            <li>Rope</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Routing table</li>
+                            <li>R-tree</li>
+                            <li>R* tree</li>
+                            <li>R+ tree</li>
+                            <li>Scapegoat tree</li>
+                            <li>Scene graph</li>
+                            <li>Segment tree</li>
+                            <li>Self-balancing binary search tree</li>
+                            <li>Self-organizing list</li>
+                            <li>Set</li>
+                            <li>Skew heap</li>
+                            <li>Skip list</li>
+                            <li>Soft heap</li>
+                            <li>Sorted array</li>
+                            <li>Spaghetti stack</li>
+                            <li>Sparse array</li>
+                            <li>Sparse matrix</li>
+                            <li>Splay tree</li>
+                            <li>SPQR-tree</li>
+                            <li>Stack</li>
+                            <li>String</li>
+                            <li>Suffix array</li>
+                            <li>Suffix tree</li>
+                            <li>Symbol table</li>
+                            <li>Syntax tree</li>
+                            <li>Tagged union (variant record, discriminated union, disjoint union)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Tango tree</li>
+                            <li>Ternary heap</li>
+                            <li>Ternary search tree</li>
+                            <li>Threaded binary tree</li>
+                            <li>Top tree</li>
+                            <li>Treap</li>
+                            <li>Tree</li>
+                            <li>Trees</li>
+                            <li>Trie</li>
+                            <li>T-tree</li>
+                            <li>UB-tree</li>
+                            <li>Union</li>
+                            <li>Unrolled linked list</li>
+                            <li>Van Emde Boas tree</li>
+                            <li>Variable-length array</li>
+                            <li>VList</li>
+                            <li>VP-tree</li>
+                            <li>Weight-balanced tree</li>
+                            <li>Winged edge</li>
+                            <li>X-fast trie</li>
+                            <li>Xor linked list</li>
+                            <li>X-tree</li>
+                            <li>Y-fast trie</li>
+                            <li>Zero suppressed decision diagram</li>
+                            <li>Zipper</li>
+                            <li>Z-order</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Game<br/>Do you recognize some structures?</h2>
+                    </section>
+                    <section data-background="img/data-structures/queue.jpg">
+                    </section>
+                    <section data-background="img/data-structures/stack.jpg">
+                    </section>
+                    <section data-background="img/data-structures/set.png" data-background-size="40%">
+                    </section>
+                    <section data-background="img/data-structures/tree.png">
+                    </section>
+                </section>
+
+                <section class="php untruthfulness">
+                    <section>
+                        <h2>Array: PHP's untruthfulness</h2>
+                        <p>PHP “Arrays” are everything but <span class="fragment">plain, </span><span class="fragment">simple, </span><span class="fragment">static, </span><span class="fragment">arrays!</span></p>
+                        <div class="fragment">
+                            <p>An array typically looks like this:</p>
+                            <img src="img/data-structures/true_array.png" alt="True array data structure" style="width: 60%;" />
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>Array: PHP's untruthfulness</h2>
+                        <p>PHP “Arrays”</p>
+                        <ul>
+                            <li class="fragment">
+                                are dynamic:
+                            </li>
+                            <li class="fragment">
+                                <pre><code class="php">$array[] = 42;
+unset($array[1]);
+array_shift($array);</code></pre>
+                            </li>
+                            <li class="fragment">
+                                can be iterated one way:</li>
+                            <li class="fragment">
+                                <pre><code class="php">foreach ($array as $elem) {}
+next($array);</code></pre>
+                            </li>
+                            <li class="fragment">
+                                or another!
+                            </li>
+                            <li class="fragment">
+                                <pre><code class="php">prev($array);</code></pre>
+                            </li>
+                        </ul>
+
+                        <p class="fragment">exclusively with <code>O(1)</code> operations!</p>
+                    </section>
+
+                    <section>
+                        <h2>Array: PHP's untruthfulness</h2>
+                        <p>To achieve this, the underlying implementation of PHP “Arrays” requires a <a href="https://en.wikipedia.org/wiki/Doubly_linked_list">Doubly Linked List</a>:</p>
+                        <img class="fragment" alt="Linked list" src="img/data-structures/linked_list.png" />
+                        <p class="fragment">Based on this, the PHP “Array” enables Queue, Stack and Deque operations.</p>
+                    </section>
+
+                    <section>
+                        <h2>Array: PHP's untruthfulness</h2>
+                        <p>PHP “Arrays” can also</p>
+                        <ul>
+                            <li class="fragment">
+                                be accessed with string keys:
+                            </li>
+                            <li class="fragment">
+                                <pre><code class="php">$array["forty-two"] = 42;</code></pre>
+                            </li>
+                            <li class="fragment">
+                                or integer keys:
+                            </li>
+                            <li class="fragment">
+                                <pre><code class="php">$array[42] = "forty-two";</code></pre>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Array: PHP's untruthfulness</h2>
+                        <p>To achieve this, the underlying implementation of PHP “Arrays” requires an <a href="https://en.wikipedia.org/wiki/Hash_table">Hash Table</a> as well:</p>
+                        <img class="fragment" style="width: 75%" alt="Linked list combined with hash table" src="img/data-structures/linked_list_and_hash_table.png" />
+                        <p class="fragment">Based on this, the PHP “Array” enables Dictionary, Map, Set,... operations.</p>
+                    </section>
+
+                    <section>
+                        <h2>Array: PHP's untruthfulness</h2>
+                        <p>From the manual: <a href="http://php.net/manual/en/language.types.array.php">http://php.net/manual/en/language.types.array.php</a>:</p>
+                        <blockquote>“This type is optimized for several different uses; it can be treated as an array, list (vector), hash table (an implementation of a map), dictionary, collection, stack, queue, and probably more.”</blockquote>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-background="img/data-structures/optimized_for_anything.png">
+                        <h2>Optimized for anything ≈ Optimized for nothing!</h2>
+                    </section>
+
+                    <section>
+                        <h2>Optimized for anything ≈ Optimized for nothing!</h2>
+                    </section>
+
+                    <section>
+                        <h2>Array: PHP compared to C</h2>
+                        <ul>
+                            <li>In C: 100 000 integers (using long on 64bits =&gt; 8 bytes) can be stored in 0.76 MiB.</li>
+                            <li class="fragment">In PHP 5:
+                                <ul>
+                                    <li class="fragment">it will take ≅ <strong>13.97 MiB!</strong></li>
+                                    <li class="fragment">A variable (containing an integer) takes 48 bytes.</li>
+                                    <li class="fragment">The overhead for every “array” entries is about 96 bytes.</li>
+                                </ul>
+                            </li>
+                            <li class="fragment">In PHP <del>5</del> 7:
+                                <ul>
+                                    <li>it will take ≅ <del><strong>13.97 MiB!</strong></del> <strong>4 MiB!</strong>!</li>
+                                    <li>A variable (containing an integer) takes <del>48</del> 16 bytes.</li>
+                                    <li>The overhead for every “array” entries is about <del>96</del> 20 bytes.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section data-background="img/data-structures/data_structure.png">
+                    <h2>Data Structures</h2>
+                </section>
+
+                <section class="structs">
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs (or records, tuples,...)</h2>
+                    </section>
+
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs (or records, tuples,...)</h2>
+                        <ul>
+                            <li>A struct is a value containing other values which are typically accessed using a name.</li>
+                            <li>Example:
+                            <p>Person =&gt; firstName / lastName</p>
+                            <p>ComplexNumber =&gt; realPart / imaginaryPart</p></li>
+                        </ul>
+                    </section>
+
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs &mdash; Using array</h2>
+                        <pre><code class="php">$person = [
+    "firstName" =&gt; "Patrick",
+    "lastName" =&gt; "Allaert",
+];</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs &mdash; Using a class</h2>
+                        <pre><code class="php">$person = new PersonStruct(
+    "Patrick", "Allaert"
+);</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs &mdash; Using a class (implementation)</h2>
+                        <pre><code class="php wide">class PersonStruct {
+    public $firstName;
+    public $lastName;
+
+    public function __construct($firstName, $lastName) {
+        $this-&gt;firstName = $firstName;
+        $this-&gt;lastName  = $lastName;
+    }
+
+    public function __set($key, $value) {
+        // a. Do nothing
+        // b. trigger_error()
+        // c. Throws an exception
+    }
+}</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs &mdash; benchmark</h2>
+                        <h3>Using 10<sup>7</sup> “person” structs</h3>
+                        <div id="structs-memory" class="chart"></div>
+                        <div id="structs-time" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'structs-memory'
+                                    },
+                                    title: { text: 'Memory usage' },
+                                    yAxis: { title: { text: 'Memory (MiB)' } },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} MiB'
+                                            }
+                                        }
+                                    },
+                                    legend: { reversed: true },
+                                    series: [
+                                        {
+                                            name: 'Object',
+                                            data: [4127, 1403],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        },
+                                        {
+                                            name: 'Array',
+                                            data: [5621, 4098],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        }
+                                    ]
+                                })
+                            );
+
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'structs-time'
+                                    },
+                                    title: { text: 'Speed' },
+                                    yAxis: {
+                                        min: 0,
+                                        title: { text: 'Time (s)' }
+                                    },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} s'
+                                            }
+                                        }
+                                    },
+                                    legend: { reversed: true },
+                                    series: [
+                                        {
+                                            name: 'Object',
+                                            data: [2.26, 0.9],
+                                            tooltip: { valueSuffix: ' s' }
+                                        },
+                                        {
+                                            name: 'Array',
+                                            data: [1.52, 0.5],
+                                            tooltip: { valueSuffix: ' s' }
+                                        }
+                                    ]
+                                })
+                            );
+                        </script>
+                    </section>
+
+                    <section data-background="img/data-structures/structs.png">
+                        <h2>Structs &mdash; Pros and Cons</h2>
+                        <div class="fragment">
+                            <p>Go for <strong><code>objects</code></strong> if you want:</p>
+                            <ul>
+                                <li>type hinting or a rigid structure (more <abbr title="Object Oriented">OO</abbr>)</li>
+                                <li>to gain in terms of memory usage over speed</li>
+                            </ul>
+                        </div>
+                        <div class="fragment">
+                            <p>Go for <strong>arrays</strong> if you want</p>
+                            <ul>
+                                <li>speed, despite bigger memory usage</li>
+                            </ul>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="arrays">
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays</h2>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays</h2>
+                        <p>An array is a fixed size collection where elements are each identified by a numeric index.</p>
+                        <img class="fragment" src="img/data-structures/true_array.png" alt="True array data structure" style="width: 60%;" />
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays</h2>
+                        <p>Obviously, you can use the regular PHP array structure...</p>
+                        <p class="fragment">or give a try to the native <code>SplFixedArray</code></p>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays &mdash; using <code>SplFixedArray</code></h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$array = new SplFixedArray(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$array[0] = 1;
+$array[1] = 2;
+$array[2] = 3;</code></pre>
+                            <pre style="float: right;"><code>$array-&gt;offsetSet(1);
+$array-&gt;offsetSet(2);
+$array-&gt;offsetSet(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>$array[0]; // gives 1
+$array[1]; // gives 2
+$array[2]; // gives 3</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays &mdash; using <code>string</code> (8-bit int)</h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$array = str_repeat(chr(0), 1024 * 1024);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$array[0] = chr(1 &amp; 0xff);
+$array[1] = chr(2 &amp; 0xff);
+$array[2] = chr(3 &amp; 0xff);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>ord($array[0]); // gives 1
+ord($array[1]); // gives 2
+ord($array[2]); // gives 3</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays &mdash; benchmark</h2>
+                        <h3>Using 10<sup>4</sup> arrays of 1000 elements</h3>
+                        <div id="arrays-memory" class="chart"></div>
+                        <div id="arrays-time" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'arrays-memory'
+                                    },
+                                    title: { text: 'Memory usage' },
+                                    yAxis: { title: { text: 'Memory (MiB)' } },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} MiB'
+                                            }
+                                        }
+                                    },
+                                    legend: { reversed: true },
+                                    series: [
+                                        {
+                                            name: 'string',
+                                            data: [11.18, 12.71],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        },
+                                        {
+                                            name: 'SplFixedArray',
+                                            data: [539, 159],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        },
+                                        {
+                                            name: 'Array',
+                                            data: [1378, 353],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        }
+                                    ]
+                                })
+                            );
+
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'arrays-time'
+                                    },
+                                    title: { text: 'Speed' },
+                                    yAxis: {
+                                        reversedStacks: false,
+                                        min: 0,
+                                        title: { text: 'Time (s)' }
+                                    },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} s'
+                                            }
+                                        },
+                                        bar: { stacking: 'normal' }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Array (create)',
+                                            data: [2.30, 0.31],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'Array'
+                                        },
+                                        {
+                                            name: 'Array (iterate)',
+                                            data: [0.2, 0.09],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'Array'
+                                        },
+                                        {
+                                            name: 'SplFixedArray (create)',
+                                            data: [0.81, 0.23],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'SplFixedArray'
+                                        },
+                                        {
+                                            name: 'SplFixedArray (iterate)',
+                                            data: [0.37, 0.16],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'SplFixedArray'
+                                        },
+                                        {
+                                            name: 'string (create)',
+                                            data: [1.05, 0.36],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'string'
+                                        },
+                                        {
+                                            name: 'string (iterate)',
+                                            data: [0.88, 0.28],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'string'
+                                        }
+                                    ]
+                                })
+                            );
+                        </script>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.png">
+                        <h2>(true) Arrays &mdash; Pros and Cons</h2>
+                        <div class="fragment">
+                            <p>Go for <strong><code>SplFixedArray</code></strong>:</p>
+                            <ul>
+                                <li>if you know in advance how many elements you have</li>
+                                <li>to reduce memory usage</li>
+                                <li>for extra speed if you can't go for PHP 7 yet</li>
+                            </ul>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="queues">
+                    <section data-background="img/data-structures/queues.jpg">
+                        <h2>Queues</h2>
+                    </section>
+
+                    <section data-background="img/data-structures/queues.jpg">
+                        <h2>Queues</h2>
+                        <ul>
+                            <li>A queue is an ordered collection respecting First In, First Out (<abbr title="First In, First Out">FIFO</abbr>) order.</li>
+                            <li>Elements are inserted at one end and removed at the other.</li>
+                        </ul>
+                        <img class="fragment" src="img/data-structures/queue.png" alt="Queue data structure" style="width: 80%;" />
+                    </section>
+
+                    <section data-background="img/data-structures/queues.jpg">
+                        <h2>Queues &mdash; Using <code>array</code></h2>
+                        <p>You can use the regular PHP array structure...</p>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$queue = [];</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$queue[] = 1;
+$queue[] = 2;
+$queue[] = 3;</code></pre>
+                            <pre style="float: right;"><code>array_push($queue, 1);
+array_push($queue, 2);
+array_push($queue, 3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>array_shift($queue); // gives 1
+array_shift($queue); // gives 2
+array_shift($queue); // gives 3</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/queues.jpg">
+                        <h2>Queues &mdash; Using <code>SplQueue</code></h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$queue = new SplQueue();</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$queue[] = 1;
+$queue[] = 2;
+$queue[] = 3;</code></pre>
+                            <pre style="float: right;"><code>$queue-&gt;enqueue(1);
+$queue-&gt;enqueue(2);
+$queue-&gt;enqueue(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>$queue-&gt;dequeue(); // gives 1
+$queue-&gt;dequeue(); // gives 2
+$queue-&gt;dequeue(); // gives 3</code></pre>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="stacks">
+                    <section data-background="img/data-structures/stacks.jpg">
+                        <h2>Stacks</h2>
+                    </section>
+
+                    <section data-background="img/data-structures/stacks.jpg">
+                        <h2>Stacks</h2>
+                        <ul>
+                            <li>A stack is an ordered collection respecting Last In, First Out (<abbr title="Last In, First Out">LIFO</abbr>) order.</li>
+                            <li>Elements are inserted and removed on the same end.</li>
+                        </ul>
+                        <img class="fragment" src="img/data-structures/stack.png" alt="Stack data structure" style="width: 80%;" />
+                    </section>
+
+                    <section data-background="img/data-structures/stacks.jpg">
+                        <h2>Stacks &mdash; Using <code>array</code></h2>
+                        <p>You can use the regular PHP array structure...</p>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$stack = [];</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$stack[] = 1;
+$stack[] = 2;
+$stack[] = 3;</code></pre>
+                            <pre style="float: right;"><code>array_push($stack, 1);
+array_push($stack, 2);
+array_push($stack, 3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>array_pop($stack); // gives 1
+array_pop($stack); // gives 2
+array_pop($stack); // gives 3</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/stacks.jpg">
+                        <h2>Stacks &mdash; Using <code>SplStack</code></h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$stack = new SplStack();</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$stack[] = 1;
+$stack[] = 2;
+$stack[] = 3;</code></pre>
+                            <pre style="float: right;"><code>$stack-&gt;push(1);
+$stack-&gt;push(2);
+$stack-&gt;push(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>$stack-&gt;pop(); // gives 3
+$stack-&gt;pop(); // gives 2
+$stack-&gt;pop(); // gives 1</code></pre>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>Queue/Stack &mdash; benchmark</h2>
+                        <h3>Using 10<sup>4</sup> arrays of 1000 elements</h3>
+                        <div id="qs-memory" class="chart"></div>
+                        <div id="qs-time" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'qs-memory'
+                                    },
+                                    title: { text: 'Memory usage' },
+                                    yAxis: { title: { text: 'Memory (MiB)' } },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} MiB'
+                                            }
+                                        }
+                                    },
+                                    legend: { reversed: true },
+                                    series: [
+                                        {
+                                            name: 'SplQueue / SplStack',
+                                            data: [920, 766],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        },
+                                        {
+                                            name: 'Array',
+                                            data: [1378, 353],
+                                            tooltip: { valueSuffix: ' MiB' }
+                                        }
+                                    ]
+                                })
+                            );
+
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'qs-time'
+                                    },
+                                    title: { text: 'Speed' },
+                                    yAxis: {
+                                        reversedStacks: false,
+                                        min: 0,
+                                        title: { text: 'Time (s)' }
+                                    },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} s'
+                                            }
+                                        },
+                                        bar: { stacking: 'normal' }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'Array (create)',
+                                            data: [0.57, 0.17],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'Array'
+                                        },
+                                        {
+                                            name: 'Array (iterate)',
+                                            data: [0.2, 0.09],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'Array'
+                                        },
+                                        {
+                                            name: 'SplQueue / SplStack (create)',
+                                            data: [1.62, 1.22],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'SplQueue / SplStack'
+                                        },
+                                        {
+                                            name: 'SplQueue / SplStack (iterate)',
+                                            data: [0.27, 0.18],
+                                            tooltip: { valueSuffix: ' s' },
+                                            stack: 'SplQueue / SplStack'
+                                        }
+                                    ]
+                                })
+                            );
+                        </script>
+                    </section>
+
+                    <section>
+                        <h2>Queue/Stack &mdash; Pros and Cons</h2>
+                        <div class="fragment">
+                            <p>Go for <strong><code>SplQueue</code>/<code>SplStack</code></strong> if you need to <strong>reduce memory usage</strong> (while under PHP 5) or want to be explicit on the data structures you use.</p>
+                            <p class="fragment">If <strong>speed</strong> is your concern or if you already focus on PHP 7, stay away from them (until some additional improvements are performed)!</p>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="sets">
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets</h2>
+                    </section>
+                    
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets</h2>
+                        <ul>
+                            <li>A set is a collection with no particular ordering especially suited for testing the membership of a value against a collection or to perform union/intersection/complement operations between them</li>
+                        </ul>
+                        <img class="fragment" src="img/data-structures/venn.png" alt="Venn diagram" style="width: 40%;" />
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using <code>array</code></h2>
+                        <div class="code">
+                            <div class="fragment">
+                                <p>Creation:</p>
+                                <pre><code>$set = [];</code></pre>
+                            </div>
+                            <div class="fragment">
+                                <p>Add entries:</p>
+                                <pre><code>$set[] = 1;
+$set[] = 2;
+$set[] = 3;</code></pre>
+                            </div>
+                            <div class="fragment">
+                                <p>Checking presence:</p>
+                                <pre><code>in_array(2, $set); // true
+in_array(5, $set); // false</code></pre>
+                            </div>
+                            <div class="fragment">
+                                <p>Other operations:</p>
+                                <pre><code>array_merge($set1, $set2); // union
+array_intersect($set1, $set2); // intersection
+array_diff($set1, $set2); // complement</code></pre>
+                            </div>
+                            <div class="fragment performance killers">
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="0" y1="0" x2="960" y2="600" stroke-width="10" stroke="red" stroke-dasharray="25, 15"></line>
+                                    <line x1="0" y1="600" x2="960" y2="0" stroke-width="10" stroke="red" stroke-dasharray="25, 15"></line>
+                                </svg>
+                                <strong>True performance killers!</strong>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Membership mis-usages</h2>
+                        <pre class="fragment"><code>if (in_array($value, ["val1", "val2", "val3"]))
+{
+    // ...
+}</code></pre>
+                        <pre class="fragment"><code>if ($value === "val1" || $value === "val2" || $value === "val3")))
+{
+    // ...
+}</code></pre>
+                        <pre class="fragment"><code>switch ($value)
+{
+    case "val1":
+    case "val2":
+    case "val3":
+        // ...
+}</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Benchmarking mis-usages</h2>
+                        <h3>5 * 10<sup>7</sup> membership test against set of 3 elements</h3>
+                        <div id="set-mu-time" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'set-mu-time'
+                                    },
+                                    title: null,
+                                    yAxis: { title: { text: 'Time (s)' } },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} s'
+                                            }
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'in_array',
+                                            data: [19.59, 3.43],
+                                            tooltip: { valueSuffix: ' s' }
+                                        },
+                                        {
+                                            name: 'compare',
+                                            data: [3.15, 2.34],
+                                            tooltip: { valueSuffix: ' s' }
+                                        },
+                                        {
+                                            name: 'switch',
+                                            data: [5.2, 1.53],
+                                            tooltip: { valueSuffix: ' s' }
+                                        },
+                                        {
+                                            name: 'next slide way ;-)',
+                                            data: [1.97, 0.75],
+                                            tooltip: { valueSuffix: ' s' }
+                                        }
+                                    ]
+                                })
+                            );
+                        </script>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using array (simple types)</h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$set = [];</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$set[1] = true; // Any dummy value is good BUT NULL!
+$set[2] = true;
+$set[3] = true;</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Testing membership:</p>
+                            <pre><code>isset($set[2]); // true
+isset($set[5]); // false</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Other operations:</p>
+                            <pre><code>$set1 + $set2; // union
+array_intersect_key($set1, $set2); // intersection
+array_diff_key($set1, $set2); // complement</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using array (objects)</h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$set = [];</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$set[spl_object_hash($object1)] = $object1; // Use the object!
+$set[spl_object_hash($object2)] = $object2;
+$set[spl_object_hash($object3)] = $object3;</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Testing membership:</p>
+                            <pre><code>isset($set[2]); // true
+isset($set[5]); // false</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Other operations:</p>
+                            <pre><code>$set1 + $set2; // union
+array_intersect_key($set1, $set2); // intersection
+array_diff_key($set1, $set2); // complement</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using <code>SplObjectStorage</code></h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$set = new SplObjectStorage();</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$set-&gt;attach($object1);
+$set-&gt;attach($object2);
+$set-&gt;attach($object3);</code></pre>
+                            <pre style="float: right;"><code>$set[$object1] = null;
+$set[$object2] = null;
+$set[$object3] = null</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Testing membership:</p>
+                            <pre><code>isset($set[$object2]); // true
+isset($set[$object5]); // false</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Other operations:</p>
+                            <pre><code>$set1-&gt;addAll($set2); // union
+$set1-&gt;removeAllExcept($set2); // intersection
+$set1-&gt;removeAll($set2); // complement</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets</h2>
+                        <pre><code>function remove($path, $files = true, $dir = true, $links = true, $exec = true)
+{
+    if (!$files &amp;&amp; is_file($path))
+        return false;
+
+    if (!$dir &amp;&amp; is_dir($path))
+        return false;
+
+    if (!$links &amp;&amp; is_link($path))
+        return false;
+
+    if (!$exec &amp;&amp; is_executable($path))
+        return false;
+    // ...
+}</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets</h2>
+                        <pre><code>remove("/tmp/removeMe", true, false, true, false);</code></pre>
+                        <img class="fragment" src="img/data-structures/wtf.jpg" alt="WTF?!" style="width: 80%"/>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using bitsets</h2>
+                        <pre><code>define("E_ERROR",   1);
+define("E_WARNING", 2);
+define("E_PARSE",   4);
+define("E_NOTICE",  8);</code></pre>
+                        <img class="fragment" src="img/data-structures/bitsets_0.png" alt="Error reporting bitsets"/>
+                        <img class="fragment" src="img/data-structures/bitsets_1.png" alt="Error reporting bitsets"/>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using bitsets</h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$set = 0;</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$set |= E_ERROR;
+$set |= E_WARNING;
+$set |= E_PARSE;</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Testing membership:</p>
+                            <pre><code>$set &amp; E_ERROR; // true
+$set &amp; E_NOTICE; // false</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Other operations:</p>
+                            <pre><code>$set1 | $set2; // union
+$set1 &amp; $set2; // intersection
+$set1 ^ $set2; // complement</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using bitsets (example)</h2>
+                        <pre><code>define("REMOVE_FILES", 1 &lt;&lt; 0);
+define("REMOVE_DIRS",  1 &lt;&lt; 1);
+define("REMOVE_LINKS", 1 &lt;&lt; 2);
+define("REMOVE_EXEC",  1 &lt;&lt; 3);
+define("REMOVE_ALL",   ~0); // Setting all bits
+
+function remove($path, $options = REMOVE_ALL)
+{
+    if (~$options &amp; REMOVE_FILES &amp;&amp; is_file($path))
+        return false;
+
+    if (~$options &amp; REMOVE_DIRS &amp;&amp; is_dir($path))
+        return false;
+
+    if (~$options &amp; REMOVE_LINKS &amp;&amp; is_link($path))
+        return false;
+
+    if (~$options &amp; REMOVE_EXEC &amp;&amp; is_executable($path))
+        return false;
+    // ...
+}</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using bitsets (example)</h2>
+                        <pre><code>remove("/tmp/removeMe", REMOVE_FILES | REMOVE_LINKS);</code></pre>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <h2>Sets &mdash; Using <code>QuickHash</code> (int)</h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$set = new QuickHashIntSet(64, QuickHashIntSet::CHECK_FOR_DUPES);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$set-&gt;add(1);
+$set-&gt;add(2);
+$set-&gt;add(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Testing membership:</p>
+                            <pre style="float: left"><code>$set-&gt;exists(2); // true
+$set-&gt;exists(5); // false</code></pre>
+                            <pre style="float: right"><code>isset($set[2]); // true
+isset($set[5]); // false</code></pre>
+                        </div>
+                        <ul>
+                            <li class="fragment">No union/intersection/complement operations (yet?):</li>
+                            <li class="fragment">Nice features like: <code>loadFrom(String|File)()</code> and <code>saveTo(String|File)()</code>
+                        </ul>
+                    </section>
+
+                    <section data-background="img/data-structures/sets.svg">
+                        <ul>
+                            <li>Use the <strong>key</strong> and not the value when using PHP Arrays.</li>
+                            <li>Use <strong><code>SplObjectStorage</code></strong> as soon as you are dealing with objects.</li>
+                            <li>Use <strong><code>bitsets</code></strong> when dealing with finite number of elements (and known in advance).</li>
+                            <li>Use <strong><code>QuickHash</code></strong> for set of integers if possible.</li>
+                            <li>Avoid <code>array_unique()</code> / <code>in_array()</code> at all price!</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Maps</h2>
+                    </section>
+
+                    <section>
+                        <h2>Maps</h2>
+                        <p>A map is a collection of key/value pairs where all keys are unique.</p>
+                    </section>
+
+                    <section>
+                        <h2>Maps</h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$map = [];</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$map["ONE"] = 1;
+$map["TWO"] = 2;
+$map["THREE"] = 3;</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Combining maps:</p>
+                            <ul>
+                                <li>
+                                    the most <del>popular</del> <ins>sluggish</ins> way:
+                                    <pre><code>array_merge($map1, $map2);</code></pre>
+                                </li>
+                                <li>
+                                    the fast one:
+                                    <pre><code>$map2 + $map1;</code></pre>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>Maps &mdash; benchmark</h2>
+                        <h3>Performing 10<sup>7</sup> combination of 2 arrays of 5 elements</h3>
+                        <div id="map-time" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                new Highcharts.Chart({
+                                    chart: {
+                                        type: 'bar',
+                                        renderTo: 'map-time'
+                                    },
+                                    title: { text: 'Speed' },
+                                    yAxis: {
+                                        reversedStacks: false,
+                                        min: 0,
+                                        title: { text: 'Time (s)' }
+                                    },
+                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                    plotOptions: {
+                                        series: {
+                                            dataLabels: {
+                                                enabled: true,
+                                                format: '{point.y} s'
+                                            }
+                                        }
+                                    },
+                                    series: [
+                                        {
+                                            name: 'array_merge',
+                                            data: [4.74, 1.42],
+                                            tooltip: { valueSuffix: ' s' }
+                                        },
+                                        {
+                                            name: '+ operator',
+                                            data: [2.77, 1.09],
+                                            tooltip: { valueSuffix: ' s' }
+                                        }
+                                    ]
+                                })
+                            );
+                        </script>
+                    </section>
+                </section>
+
+                <section class="heaps">
+                    <section>
+                        <h2>Heaps</h2>
+                        <ul class="fragment">
+                            <li>A heap is a tree-based structure in which all elements are ordered with largest key at the top, and the smallest one as leafs (or the opposite).</li>
+                        </ul>
+
+                        <svg class="fragment" xmlns="http://www.w3.org/2000/svg" width="501" height="370.96875" id="svg2" version="1.1">
+                            <defs id="defs4">
+                                <linearGradient>
+                                    <stop style="stop-color:#ffffff;stop-opacity:1;" offset="0"/>
+                                </linearGradient>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                </linearGradient>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                </linearGradient>
+                                <radialGradient cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428" gradientUnits="userSpaceOnUse"/>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
+                                <linearGradient>
+                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
+                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
+                                </linearGradient>
+                            </defs>
+                            <g id="layer1" style="display:inline" transform="translate(30.5,-391.875)">
+                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 25,697.36218 50,-90 50,90"/>
+                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 75,607.36218 55,-95 0,0 55,95"/>
+                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 130,512.36218 105,-60 100,60 -50,95"/>
+                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 390,607.36218 -55,-95"/>
+                                <g/>
+                            </g>
+                            <g id="layer2" style="display:inline" transform="translate(30.5,-391.875)">
+                                <g transform="translate(79.359283,2.8769531)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-71);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan id="tspan5343" y="459.48523" x="155.64072" >142</tspan></text>
+                                </g>
+                                <g transform="translate(-25.640717,62.876953)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-8-2);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5627">23</tspan></text>
+                                </g>
+                                <g transform="translate(179.35928,62.876953)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-6-5);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5629">109</tspan></text>
+                                </g>
+                                <g transform="translate(-80.640717,157.87695)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-5-7);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5631">16</tspan></text>
+                                </g>
+                                <g transform="translate(29.359283,157.87695)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-64-0);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5633">22</tspan></text>
+                                </g>
+                                <g transform="translate(129.35928,157.87695)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-2-3);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5635">99</tspan></text>
+                                </g>
+                                <g transform="translate(234.35928,157.87695)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-28-6);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5637">108</tspan></text>
+                                </g>
+                                <g transform="translate(-130.64072,247.87695)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-3-8);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan id="tspan5343-2" y="459.48523" x="155.64072" >2</tspan></text>
+                                </g>
+                                <g transform="translate(-30.640717,247.87695)">
+                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-9-4);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
+                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
+                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan id="tspan5343-88" y="459.48523" x="155.64072" >7</tspan></text>
+                                </g>
+                            </g>
+                        </svg>
+
+                    </section>
+
+                    <section>
+                        <h2>Heaps &mdash; Using <code>Spl(Min|Max)Heap</code></h2>
+                        <pre><code>$heap = new SplMinHeap;</code></pre>
+                        <pre><code>$heap-&gt;insert(30);
+$heap-&gt;insert(20);
+$heap-&gt;insert(25);</code></pre>
+
+                        <pre><code>var_dump($heap-&gt;top());
+
+/* int(20) */
+
+foreach ($heap as $elem) {
+    var_dump($elem);
+}
+/*
+int(20)
+int(25)
+int(30)
+*/</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Heaps &mdash; Conclusions</h2>
+                        <ul>
+                            <li class="fragment">MUCH faster than having to re-<code>sort()</code> an array at every insertion.</li>
+                            <li class="fragment">Regular PHP arrays perform better than <code>SplHeaps</code> if you don't require a collection to be sorted at <strong>every</strong> single step.</li>
+                            <li class="fragment"><code>SplPriorityQueue</code> is very similar, consider it is the same as <code>SplHeap</code> but where the sorting is made on a key rather than the value.</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Bloom filters</h2>
+                        <ul>
+                            <li class="fragment">A bloom filter is a <strong>space-efficient probabilistic</strong> data structure used to test whether an element is member of a set.</li>
+                            <li class="fragment">False positives are possible, but false negatives are not!</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Bloom filters &mdash; Using <code>bloomy</code></h2>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$bloom = new BloomFilter(
+    10000, // capacity
+    0.001  // (optional) error rate
+           // (optional) random seed
+);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$bloom-&gt;add("An element");</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Testing membership:</p>
+                            <pre><code>$bloom-&gt;has("An element"); // true for sure
+$bloom-&gt;has("Foo"); // false, most probably</code></pre>
+                        </div>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Sparse dynamic arrays</h2>
+                        <table class="sparse dynamic array">
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td class="x">X</td><td class="x">X</td><td class="x">X</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="x">X</td><td class="x">X</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <h2>Sparse dynamic arrays &mdash; Using <code>Judy</code></h2>
+                        <div class="fragment">
+                            <p>Use a Judy array as you would use a regular PHP array:</p>
+                            <pre><code>$sparseArray = new Judy(Judy::INT_TO_INT);
+
+$sparseArray[125] = 17;
+$sparseArray[312] = 18;
+$sparseArray[859] = 25;
+
+echo $sparseArray[125]; // will print 17
+echo $sparseArray[42];  // will print 0</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>A memory-efficient bitset is also possible:</p>
+                            <pre><code>$bitset = new Judy(Judy::BITSET);
+$bitset[124] = true;
+
+print $bitset[124]; // will print 1
+print $bitset[100]; // will print 0
+
+$bitset[124] = false; // is the same as unset($bitset[124])</code></pre>
+                        </div>
+                    </section>
+                </section>
+
+                <section class="conclusions">
+                    <h2>Conclusions</h2>
+                    <ul>
+                        <li class="fragment">Use appropriate data structure. It will keep your code <strong>self-documenting and fast</strong>.</li>
+                        <li class="fragment">Think about the time and space complexity involved by your algorithms.</li>
+                        <li class="fragment">Name your variables accordingly: use “Map”, “Set”, “List”, “Queue”,... to describe them instead of (always) naming it: <code>$array</code>.</li>
+                    </ul>
+                </section>
+
+                <section class="questions">
+                    <h2>Questions?</h2>
+                </section>
+
+                <section class="thanks">
+                    <h2>Thanks</h2>
+                    <p>Don't forget to rate this talk on <a itemprop="discussionUrl" href="https://joind.in/14717">https://joind.in/14717</a></p>
+
+                    <h3>Stay in touch!</h3>
+                    <p><a href="https://twitter.com/patrick_allaert/">@patrick_allaert</a></p>
+                    <p><a href="mailto:patrickallaert@php.net">patrickallaert@php.net</a></p>
+                </section>
+            </div>
+
+            <footer>
+                <img src="lib/img/logo/catchy.io.logo.png" alt="Catchy logo" id="logo">
+                <span>&mdash;</span>
+                Monitoring for <code>E_ALL</code>.
+            </footer>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            var charts = document.getElementsByClassName("chart");
+            for (var i = 0; i < charts.length; ++i) {
+                charts[i].onclick = function () {
+                    this.classList.toggle("modal");
+                    for (var i = 0; i < allCharts.length; ++i) {
+                        allCharts[i].reflow();
+                    }
+                    Reveal.configure();
+                }
+            }
+        </script>
+
+    </body>
+</html>
