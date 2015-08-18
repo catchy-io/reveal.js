@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>PHP Data Structures (and the impact of PHP 7 on them) - Northeast PHP Conference 2015, Boston, USA</title>
+
+        <meta name="description" content="Catchy.io presentations">
+        <meta name="author" content="Patrick Allaert">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="css/catchy.css">
+        <link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+            var allCharts = [];
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-49964131-4', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body class="home page">
+        <div class="reveal">
+            <div class="slides">
+                <section data-background="lib/img/logo/catchy.io.background.png">
+                    <h1>Catchy.io presentations:</h1>
+                    <ul>
+                        <li>Northeast PHP Conference 2015 in Boston (USA):
+                            <ul>
+                                <li itemscope itemtype="http://schema.org/TechArticle">
+                                    <meta itemprop="datePublished" content="2015-08-18"/>
+                                    <meta itemprop="headline" content="Presentation of 'PHP Data Structures (and the impact of PHP 7 on them)' by Patrick Allaert at Northeast PHP Conference 2015 in Boston (USA)."/>
+                                    <meta itemprop="image" content="img/data-structures/presentation_thumbnail.jpg" />
+                                    <a itemprop="url" href="PHP-Data-Structures-and-the-impact-of-PHP-7-on-them.html">"<span itemprop="name">PHP Data Structures (and the impact of PHP 7 on them)</span>" by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="givenName">Patrick</span> <span itemprop="familyName">Allaert</span></span>.</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+
+            <footer>
+                <img src="lib/img/logo/catchy.io.logo.png" alt="Catchy.io logo" id="logo">
+                <span>&mdash;</span>
+                Monitoring for <code>E_ALL</code>.
+            </footer>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: false,
+                progress: true,
+                history: true,
+                center: true,
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+        </script>
+
+    </body>
+</html>
