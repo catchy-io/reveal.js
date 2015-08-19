@@ -12,7 +12,7 @@ gulp.task('css', function () {
 gulp.task("default", function () {
     gulp.start("css");
     gulp.watch([
-        'css/catchy.less'
+        'css/*.less',
     ], function (event) {
         gulp.run('css');
     });

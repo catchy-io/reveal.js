@@ -1,6 +1,22 @@
 @import "reveal.css";
+
+@import "catchy-font";
 @import "../lib/font/font-awesome-4.3.0/css/font-awesome.min.css";
 @import "../lib/css/zenburn.css";
+
+body {
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8) !important;
+}
+
+svg {
+    text-shadow: none;
+}
+
+body .reveal section img {
+    background: #000;
+    border: none;
+    padding: 0;
+}
 
 .hide-footer .reveal footer {
     opacity: 0;
@@ -68,8 +84,11 @@ img#logo {
 
 body .reveal .slides {
     h1, h2, h3, h4, h5, h6 {
-        font-family: "Inconsolata";
+        font-family: "Fira Sans";
         text-transform: none;
+    }
+    h2, h3, h4, h5, h6 {
+        text-shadow: 3px 3px 8px rgba(0,0,0,0.8) !important;
     }
 }
 
