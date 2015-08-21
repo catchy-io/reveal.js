@@ -342,8 +342,8 @@
                 </section>
 
                 <section class="php untruthfulness">
+                    <h2>Array: PHP's untruthfulness</h2>
                     <section>
-                        <h2>Array: PHP's untruthfulness</h2>
                         <p>PHP “Arrays” are everything but <span class="fragment">plain, </span><span class="fragment">simple, </span><span class="fragment">static, </span><span class="fragment">arrays!</span></p>
                         <div class="fragment">
                             <p>An array typically looks like this:</p>
@@ -352,7 +352,6 @@
                     </section>
 
                     <section>
-                        <h2>Array: PHP's untruthfulness</h2>
                         <p>PHP “Arrays”</p>
                         <ul>
                             <li class="fragment">
@@ -381,14 +380,12 @@ next($array);</code></pre>
                     </section>
 
                     <section>
-                        <h2>Array: PHP's untruthfulness</h2>
                         <p>To achieve this, the underlying implementation of PHP “Arrays” requires a <a href="https://en.wikipedia.org/wiki/Doubly_linked_list">Doubly Linked List</a>:</p>
                         <img class="fragment" alt="Linked list" src="img/data-structures/linked_list.png" />
-                        <p class="fragment">Based on this, the PHP “Array” enables Queue, Stack and Deque operations.</p>
+                        <p class="fragment">Thanks to this, the PHP “Array” enables Queue, Stack and Deque operations.</p>
                     </section>
 
                     <section>
-                        <h2>Array: PHP's untruthfulness</h2>
                         <p>PHP “Arrays” can also</p>
                         <ul>
                             <li class="fragment">
@@ -407,14 +404,12 @@ next($array);</code></pre>
                     </section>
 
                     <section>
-                        <h2>Array: PHP's untruthfulness</h2>
                         <p>To achieve this, the underlying implementation of PHP “Arrays” requires an <a href="https://en.wikipedia.org/wiki/Hash_table">Hash Table</a> as well:</p>
                         <img class="fragment" style="width: 75%" alt="Linked list combined with hash table" src="img/data-structures/linked_list_and_hash_table.png" />
-                        <p class="fragment">Based on this, the PHP “Array” enables Dictionary, Map, Set,... operations.</p>
+                        <p class="fragment">Thanks to this, the PHP “Array” enables Dictionary, Map, Set,... operations.</p>
                     </section>
 
                     <section>
-                        <h2>Array: PHP's untruthfulness</h2>
                         <p>From the manual: <a href="http://php.net/manual/en/language.types.array.php">http://php.net/manual/en/language.types.array.php</a>:</p>
                         <blockquote>“This type is optimized for several different uses; it can be treated as an array, list (vector), hash table (an implementation of a map), dictionary, collection, stack, queue, and probably more.”</blockquote>
                     </section>
@@ -601,24 +596,22 @@ next($array);</code></pre>
                 </section>
 
                 <section class="arrays">
+                    <h2>(true) Arrays</h2>
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays</h2>
                     </section>
 
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays</h2>
                         <p>An array is a fixed size collection where elements are each identified by a numeric index.</p>
                         <img class="fragment" src="img/data-structures/true_array.png" alt="True array data structure" style="width: 60%;" />
                     </section>
 
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays</h2>
                         <p>Obviously, you can use the regular PHP array structure...</p>
                         <p class="fragment">or give a try to the native <code>SplFixedArray</code></p>
                     </section>
 
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays &mdash; using <code>SplFixedArray</code></h2>
+                        <h3>using <code>SplFixedArray</code></h3>
                         <div class="fragment">
                             <p>Creation:</p>
                             <pre><code>$array = new SplFixedArray(3);</code></pre>
@@ -641,7 +634,7 @@ $array[2]; // gives 3</code></pre>
                     </section>
 
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays &mdash; using <code>string</code> (8-bit int)</h2>
+                        <h3>using <code>string</code> (8-bit int)</h3>
                         <div class="fragment">
                             <p>Creation:</p>
                             <pre><code>$array = str_repeat(chr(0), 1024 * 1024);</code></pre>
@@ -661,8 +654,8 @@ ord($array[2]); // gives 3</code></pre>
                     </section>
 
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays &mdash; benchmark</h2>
-                        <h3>Using 10<sup>4</sup> arrays of 1000 elements</h3>
+                        <h3>benchmark</h3>
+                        <h4>Using 10<sup>4</sup> arrays of 1000 elements</h4>
                         <div id="arrays-memory" class="chart"></div>
                         <div id="arrays-time" class="chart"></div>
 
@@ -771,7 +764,7 @@ ord($array[2]); // gives 3</code></pre>
                     </section>
 
                     <section data-background="img/data-structures/arrays.jpg">
-                        <h2>(true) Arrays &mdash; Pros and Cons</h2>
+                        <h2>Pros and Cons</h2>
                         <div class="fragment">
                             <p>Go for <strong><code>SplFixedArray</code></strong>:</p>
                             <ul>
