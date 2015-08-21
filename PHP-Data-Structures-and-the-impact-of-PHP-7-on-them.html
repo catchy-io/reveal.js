@@ -513,7 +513,14 @@ next($array);</code></pre>
                                         renderTo: 'structs-memory'
                                     },
                                     title: { text: 'Memory usage' },
-                                    yAxis: { title: { text: 'Memory (MiB)' } },
+                                    yAxis: {
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
+                                    },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
                                         series: {
@@ -548,7 +555,12 @@ next($array);</code></pre>
                                     title: { text: 'Speed' },
                                     yAxis: {
                                         min: 0,
-                                        title: { text: 'Time (s)' }
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
                                     },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
@@ -667,7 +679,14 @@ ord($array[2]); // gives 3</code></pre>
                                         renderTo: 'arrays-memory'
                                     },
                                     title: { text: 'Memory usage' },
-                                    yAxis: { title: { text: 'Memory (MiB)' } },
+                                    yAxis: {
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
+                                    },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
                                         series: {
@@ -708,7 +727,12 @@ ord($array[2]); // gives 3</code></pre>
                                     yAxis: {
                                         reversedStacks: false,
                                         min: 0,
-                                        title: { text: 'Time (s)' }
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
                                     },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
@@ -913,7 +937,14 @@ $stack-&gt;pop(); // gives 1</code></pre>
                                         renderTo: 'qs-memory'
                                     },
                                     title: { text: 'Memory usage' },
-                                    yAxis: { title: { text: 'Memory (MiB)' } },
+                                    yAxis: {
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
+                                    },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
                                         series: {
@@ -949,7 +980,12 @@ $stack-&gt;pop(); // gives 1</code></pre>
                                     yAxis: {
                                         reversedStacks: false,
                                         min: 0,
-                                        title: { text: 'Time (s)' }
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
                                     },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
@@ -1079,8 +1115,15 @@ array_diff($set1, $set2); // complement</code></pre>
                                         type: 'bar',
                                         renderTo: 'set-mu-time'
                                     },
-                                    title: null,
-                                    yAxis: { title: { text: 'Time (s)' } },
+                                    title: { text: 'Speed' },
+                                    yAxis: {
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
+                                    },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
                                         series: {
@@ -1374,7 +1417,12 @@ $map["THREE"] = 3;</code></pre>
                                     yAxis: {
                                         reversedStacks: false,
                                         min: 0,
-                                        title: { text: 'Time (s)' }
+                                        title: {
+                                            enabled: false
+                                        },
+                                        labels: {
+                                            enabled: false
+                                        }
                                     },
                                     xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
                                     plotOptions: {
