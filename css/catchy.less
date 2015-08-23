@@ -92,7 +92,12 @@ body .reveal .slides {
     }
 }
 
-body.php.data.structures {
+.make-bg-disappear {
+    filter: blur(5px) opacity(20%);
+    -webkit-filter: blur(5px) opacity(20%);
+}
+
+body div.reveal {
     h1 {
         font-size: 2em;
     }
@@ -105,9 +110,23 @@ body.php.data.structures {
     }
 
     h3 {
-        font-size: 1.5em;
+        font-size: 1.35em;
     }
 
+    h4 {
+        font-size: 1.2em;
+    }
+}
+
+body.advanced.debugging.php {
+    .slide-background.stack.rubber.duck {
+        .slide-background:not(:first-child) {
+            .make-bg-disappear;
+        }
+    }
+}
+
+body.php.data.structures {
     pre {
         width: auto;
     }
@@ -165,8 +184,7 @@ body.php.data.structures {
     .slide-background.stack.stacks,
     .slide-background.stack.sets {
         .slide-background:not(:first-child) {
-            filter: blur(5px) opacity(20%);
-            -webkit-filter: blur(5px) opacity(20%);
+            .make-bg-disappear;
         }
     }
 
