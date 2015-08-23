@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>http://slides.catchy.io/</loc>
-        <lastmod>2015-08-18</lastmod>
+        <lastmod>2015-08-24</lastmod>
     </url>
     <url>
         <loc>http://slides.catchy.io/PHP-Data-Structures-and-the-impact-of-PHP-7-on-them.html</loc>
-        <lastmod>2015-08-18</lastmod>
+        <lastmod>2015-08-24</lastmod>
+    </url>
+    <url>
+        <loc>http://slides.catchy.io/Advanced-debugging-techniques-for-PHP.html</loc>
+        <lastmod>2015-08-24</lastmod>
     </url>
 </urlset>
