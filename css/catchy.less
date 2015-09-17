@@ -30,6 +30,17 @@ body .reveal section img {
     font-size: 2vh;
     opacity: 1;
     transition: opacity .25s ease-in-out;
+    a {
+      color: #fff !important;
+      z-index: 2000;
+      &:hover {
+        color: #fff !important;
+        background: transparent !important;
+        img {
+        background: transparent !important;
+        }
+      }
+    }
     span {
         margin: 0 1em;
         opacity: 0.5;
