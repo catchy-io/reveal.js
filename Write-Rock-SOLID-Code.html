@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Write Rock SOLID Code - HR-Rail, Brussels, Belgium</title>
+
+        <meta name="description" content="Presentation of 'Write Rock SOLID Code' by Olivier Garcia at HR-Rail, Brussels, Belgium (Europe)">
+        <meta name="author" content="Olivier Garcia">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+
+        <link rel="stylesheet" href="css/catchy.css">
+        <link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+            var allCharts = [];
+        </script>
+
+        <script>
+            if (window.location.protocol != "file:") {
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-49964131-4', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body class="php write solid code" itemscope itemtype="http://schema.org/TechArticle">
+        <meta itemprop="datePublished" content="2015-09-24"/>
+        <meta itemprop="headline" content=""/>
+        <meta itemprop="image" content="http://slides.catchy.io/img/rock-solid-code/rock-solid-code.jpg" />
+        <meta itemprop="thumbnailUrl" content="http://slides.catchy.io/img/rock-solid-code/rock-solid-code.jpg" />
+        <div itemprop="publication" itemscope itemtype="http://schema.org/PublicationEvent">
+            <meta itemprop="name" content="Write Rock SOLID Code"/>
+            <meta itemprop="startDate" content="2015-09-24T10:30:00-05:00"/>
+            <meta itemprop="endDate" content="2015-09-24T11:30:00-05:00"/>
+            <meta itemprop="url" content="http://www.hr-rail.be/"/>
+            <meta itemprop="duration" content="PT1H"/>
+            <meta itemprop="inLanguage" content="en"/>
+        </div>
+        <div class="reveal">
+            <div class="slides">
+                <section data-background="img/rock-solid-code/rock.jpg" class="first">
+                    <h1 itemprop="name">Write Rock <span>SOLID</span> Code</h1>
+                </section>
+
+                <section data-background="lib/img/logo/catchy.io.background.png" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <meta itemprop="email" content="oliviergarcia@php.net"/>
+                    <meta itemprop="image" content="https://pbs.twimg.com/profile_images/2218726509/olivier_128.jpg"/>
+                    <h2>Hello, I'm <span itemprop="givenName">Olivier</span> <span itemprop="familyName">Garcia</span></h2>
+                    <p><a href="https://twitter.com/0livier/">@0livier</a>, Full stack <code>(dev|dad|<span itemprop="jobTitle">CEO</span> of <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><meta itemprop="logo" content="lib/img/logo/catchy.io.logo.png"/><a href="http://catchy.io/" itemprop="url"><span itemprop="name">catchy.io</span></a></span>)</code></p>
+                    <ul>
+                        <li class="fragment">Co-organizer of <a href="http://agiletour-lille.org">Agile Tour Lille 2014 & 2015</a></li>
+                        <li class="fragment">Soon PHP internals contributor</li>
+                        <li class="fragment">Tries to unhook from chocolate</li>
+                    </ul>
+                </section>
+
+                <section class="stupid">
+                    <section data-background="img/rock-solid-code/gandalf.png" data-state="hide-footer">
+                        <h2 style="margin-top: 65%">You shall not write <span>STUPID</span> code</h2>
+                    </section>
+                    <section>
+                        <h2>Avoid <span>S</span>ingleton</h2>
+                        <ul>
+                            <li>using global state is difficult to test</li>
+                            <li>hides code dependencies</li>
+                            <li>modifying singleton can have unexpected side effects</li>
+                        </ul>
+                    </section>
+                        <section>
+                            <h2>Don't create <span>T</span>ight coupled code</h2>
+                                <pre><code>class House {
+    public function __construct() {
+        $this->door   = new Door;
+        $this->window = new Window;
+    }
+}</code></pre>
+                        </section>
+                        <section>
+                            <h2>Don't create <span>T</span>ightly coupled code</h2>
+                            <div>
+                                <pre><code class="php">function setLogger(Monolog\Logger $logger) {...}</code></pre>
+                            </div>
+                            <p>vs</p>
+                            <div>
+                                <pre><code class="php">function setLogger(Psr\Log\LoggerInterface $logger) {...}</code></pre>
+                            </div>
+                        </section>
+                    <section data-background="img/rock-solid-code/halloween.jpg" >
+                        <h2>Don't release <span>U</span>ntested stuff</h2>
+                    </section>
+                    <section>
+                        <h2><span>P</span>remature optimization<br/>is the root of all evil</h2>
+                        <ul>
+                            <li>Make it work.</li>
+                            <li>Make it right <i>(as in good OOP)</i>.</li>
+                            <li><strong>Then make it fast</strong>.</li>
+                        </ul>
+                        <p>Dependant on context (volume, usage frequency...)</p>
+                    </section>
+                    <section>
+                        <h2>Don't give <span>I</span>ndescriptive naming</h2>
+                        <p class="fragment">
+                            What the heck ?
+                            <code>strpbrk</code>, <code>strcspn</code>
+                        </p>
+                        <pre class="fragment" style="margin: 0; "><code>function createLogEntry($action, $object, LoggableAdapter $ea)</code></pre>
+                        <aside class="notes">
+                            <p>strpbrk — Recherche un ensemble de caractères dans une chaîne de caractères</p>
+                            <p>strcspn — Trouve un segment de chaîne ne contenant pas certains caractères</p>
+                            <p>A variable with a name shorter than 3 chars, not used for loop index, is usually a bad thing</p>
+                            <p>
+                                If you're writing a class with several change of strategy in it (a lot of "if", change of contexts),
+                                it's a bad sign
+                            </p>
+                            <p>Infrabel does not invoice us for long variables names</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Remove <span>D</span>uplicated code</h2>
+                        <h2>Remove <span>D</span>uplicated code</h2>
+                        <h2>Remove <span>D</span>uplicated code</h2>
+                        <p class="fragment">Duh</p>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Knowing what to <span class="stupid">avoid</span> is <strong>good</strong></h2>
+                    <br/>
+                    <h2 class="fragment">Knowing what to <span class="solid">do</span> is <strong>better</strong></h2>
+                    <aside class="notes">
+                        If you wonder where STUPID comes from: The idea came up on the PHP chatroom on StackOverflow
+                        http://chat.stackoverflow.com/transcript/11?m=2182205#2182205
+                    </aside>
+                </section>
+
+                <section class="solid">
+                    <h2><span>SOLID</span></h2>
+                    <q class="fragment">5 principles found by Robert C. Martin</q>
+                </section>
+
+                <section class="solid">
+                    <section>
+                        <h2><span>S</span>ingle responsibility principle</h2>
+                        <blockquote>
+                            A class should have one, and only one, reason to change.
+                        </blockquote>
+                        <aside class="notes">
+                            If you're writing a class with several change of strategy in it (a lot of "if", change of contexts),
+                            it's a bad sign
+                        </aside>
+                    </section>
+                    <section>
+                        <pre><code style="font-size: 70%">class Book {
+    function getTitle() {
+        return "A Great Book";
+    }
+    function getAuthor() {
+        return "John Doe";
+    }
+    function turnPage() {
+        // pointer to next page
+    }
+    function getCurrentPage() {
+        return "current page content";
+    }
+    function save() {
+        $filename = '/documents/'. $this->getTitle(). ' - ' . $this->getAuthor();
+        file_put_contents($filename, serialize($this));
+    }
+}</code></pre>
+                    </section>
+                </section>
+
+                <section class="solid">
+                    <section>
+                        <h2><span>O</span>pen/closed principle</h2>
+                        <blockquote>
+                            Objects or entities should be open for extension, but closed for modification.
+                        </blockquote>
+                        <i>It's funny, I opened 5 pages on that aspect and found 5 different interpretations. Maybe another one here :p</i>
+                        <aside class="notes">
+                            <p>A class should be easily extendable without modifying the class itself</p>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2><span>O</span>pen/closed principle</h2>
+                        <p>Especially useful for libraries, rigidify your code</p>
+                        <ul>
+                            <li>Put properties private and provide getter/setter</li>
+                            <li>Use the <code>final</code> keyword with caution</li>
+                            <li>Put the proper <code>docblock</code> comments</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section class="solid">
+                    <section>
+                        <h2><span>L</span>iskov substitution principle</h2>
+                        <blockquote>
+                            Derived classes must be substitutable for their base classes.
+                        </blockquote>
+                        <aside class="notes">
+                            Two ways of reading it: return types vs model inheritence. IMHO, it is the latest
+                        </aside>
+                    </section>
+                    <section>
+                        <h2><span>L</span>iskov substitution principle</h2>
+                        <pre><code>class Square extends Rectangle {
+    public function setHeight($value) {
+        $this->width = $value;
+        $this->height = $value;
+    }
+
+    public function setWidth($value) {
+        $this->width = $value;
+        $this->height = $value;
+    }
+}</code></pre>
+                    </section>
+                </section>
+
+                <section class="solid">
+                    <section>
+                        <h2><span>I</span>nterface segregation principle</h2>
+                        <blockquote>
+                            Make fine grained interfaces that are client specific.
+                        </blockquote>
+                        <aside class="notes">
+                            Many client-specific interfaces are better than one general-purpose interface.
+                        </aside>
+                    </section>
+                    <section>
+                        <h2><span>I</span>nterface segregation principle</h2>
+                        <pre><code>interface Vehicule {
+    public function getSpeed();
+    public function getMotor();
+}</code></pre>
+                    </section>
+                    <section>
+                        <h2><span>I</span>nterface segregation principle</h2>
+                        <pre><code>interface Vehicule {
+    public function getSpeed();
+}
+
+interface MotorizedVehicule {
+    public function getMotor();
+}
+
+class Bicycle implements Vehicule {...}
+
+class Car implements Vehicule, MotorizedVehicule {...}</code></pre>
+                    </section>
+                </section>
+
+                <section class="solid">
+                    <h2><span>D</span>ependency inversion principle</h2>
+                    <blockquote>
+                        Depend on abstractions, not on concretions.
+                    </blockquote>
+                    <pre><code class="php">function setLogger(Psr\Log\LoggerInterface $logger) {...}</code></pre>
+                    <aside class="notes">
+                        <ul>
+                        <li>use the same level of abstraction at a given level.</li>
+                            <li>Interfaces should depend on other interfaces.</li>
+                            <li>Don't add concrete classes to method signatures of an interface.</li>
+                            <li>However, use interfaces in your class methods.</li>
+                        </ul>
+                    </aside>
+
+                </section>
+
+                <section>
+                    <h2>Summary</h2>
+                    <table class="summary">
+                        <tr>
+                            <td class="stupid">
+                                <span>S</span>ingleton<br/>
+                                <span>T</span>ightly coupled code<br/>
+                                <span>U</span>ntested stuff<br/>
+                                <span>P</span>remature optimization<br/>
+                                <span>I</span>ndescriptive naming<br/>
+                                <span>D</span>uplicated code
+                            </td>
+                            <td class="solid">
+                                <span>S</span>ingle responsibility principle<br/>
+                                <span>O</span>pen/closed principle<br/>
+                                <span>L</span>iskov substitution<br/>
+                                <span>I</span>nterface segregation<br/>
+                                <span>D</span>ependency inversion principle
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="questions">
+                    <h2>Questions?</h2>
+                </section>
+
+            </div>
+
+            <footer class="catchy">
+                <a href="http://catchy.io"><img src="lib/img/logo/catchy.io.logo.png" alt="Catchy.io logo" id="logo">
+                <span>&mdash;</span>
+                Monitoring for <code>E_ALL</code>
+                </a>
+            </footer>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            var charts = document.getElementsByClassName("chart");
+            for (var i = 0; i < charts.length; ++i) {
+                charts[i].onclick = function () {
+                    this.classList.toggle("modal");
+                    for (var i = 0; i < allCharts.length; ++i) {
+                        allCharts[i].reflow();
+                    }
+                    Reveal.configure();
+                }
+            }
+        </script>
+    </body>
+</html>

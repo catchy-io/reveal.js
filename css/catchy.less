@@ -8,8 +8,17 @@ body {
     text-shadow: 2px 2px 5px rgba(0,0,0,0.8) !important;
 }
 
+
 svg {
     text-shadow: none;
+}
+
+.reveal section {
+    a {
+        color: #fff !important;
+        border-bottom: 1px solid #ccc;
+    }
+
 }
 
 body .reveal section img {
@@ -23,7 +32,7 @@ body .reveal section img {
     transition: opacity .25s ease-in-out;
 }
 
-.reveal footer {
+.reveal footer.catchy {
     position: absolute;
     bottom: 1em;
     left: 1em;
@@ -135,6 +144,33 @@ body.advanced.debugging.php {
             .make-bg-disappear;
         }
     }
+}
+
+body.write.solid.code {
+
+    table.summary {
+        td {
+            font-size: 90%;
+            span {
+                font-family: "Inconsolata", "Monaco", Courier New, monospace;
+                font-size: 110%;
+            }
+            //width: 50%;
+        }
+    }
+    section.stupid h2 span, td.stupid span, span.stupid {
+        font-weight: bolder;
+        color: #f77 !important;
+        text-shadow: 2px 2px 12px rgba(32,0,0,1) !important;
+    }
+
+    section.first h1 span, section.solid h2 span, td.solid span, span.solid {
+        font-weight: bolder;
+        color: #7f7 !important;
+        text-shadow: 2px 2px 12px rgba(0, 32, 0,1) !important;
+        margin-top: 10px;
+    }
+
 }
 
 body.php.data.structures {
