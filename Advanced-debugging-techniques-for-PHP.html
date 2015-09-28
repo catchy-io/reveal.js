@@ -314,15 +314,15 @@ Hello</code></pre>
                     <section>
                         <p>Low overhead tracing tool composed of a PHP extension and a command line tool.</p>
 
-                        <pre class="fragment"><code class="shell">$ php -r 'for ($i = 0; $i < 100; $i++) usleep(10000);' &amp;</code></pre>
+                        <pre class="fragment"><code class="shell">$ php -r 'for ($i = 0; $i &lt; 100; $i++) usleep(10000);' &amp;</code></pre>
 
                         <pre class="fragment"><code class="shell">$ ./phptrace -p $!
 1431763911.194806      usleep(10000) at [Command line code:1]
-1431763911.204932      usleep  =>  NULL   wt: 0.010126 ct: 0.000000
+1431763911.204932      usleep  =&gt;  NULL   wt: 0.010126 ct: 0.000000
 1431763911.204950      usleep(10000) at [Command line code:1]
-1431763911.215045      usleep  =>  NULL   wt: 0.010095 ct: 0.000000
+1431763911.215045      usleep  =&gt;  NULL   wt: 0.010095 ct: 0.000000
 1431763911.215056      usleep(10000) at [Command line code:1]
-1431763911.225177      usleep  =>  NULL   wt: 0.010121 ct: 0.000000
+1431763911.225177      usleep  =&gt;  NULL   wt: 0.010121 ct: 0.000000
 1431763911.225192      usleep(10000) at [Command line code:1]</code></pre>
                     </section>
 
