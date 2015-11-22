@@ -907,9 +907,9 @@ array_push($stack, 3);</code></pre>
                         </div>
                         <div class="fragment">
                             <p>Access them:</p>
-                            <pre><code>array_pop($stack); // gives 1
+                            <pre><code>array_pop($stack); // gives 3
 array_pop($stack); // gives 2
-array_pop($stack); // gives 3</code></pre>
+array_pop($stack); // gives 1</code></pre>
                         </div>
                     </section>
 
@@ -1234,9 +1234,9 @@ array_diff_key($set1, $set2); // complement</code></pre>
                             <pre style="float: left;"><code>$set-&gt;attach($object1);
 $set-&gt;attach($object2);
 $set-&gt;attach($object3);</code></pre>
-                            <pre style="float: right;"><code>$set[$object1] = null;
-$set[$object2] = null;
-$set[$object3] = null</code></pre>
+                            <pre style="float: right;"><code>$set[$object1] = true;
+$set[$object2] = true;
+$set[$object3] = true;</code></pre>
                         </div>
                         <div class="fragment">
                             <p>Testing membership:</p>
