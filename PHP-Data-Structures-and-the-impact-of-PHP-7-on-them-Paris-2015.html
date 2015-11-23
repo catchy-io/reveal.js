@@ -371,7 +371,7 @@ emphasize on the benefits of PHP 7.
                 <section class="php untruthfulness">
                     <h2>Array: PHP's untruthfulness</h2>
                     <section>
-                        <p>PHP “Arrays” are everything but <span class="fragment">plain, </span><span class="fragment">simple, </span><span class="fragment">static, </span><span class="fragment">arrays!</span></p>
+                        <p>PHP “Arrays” are everything but simple arrays!</span></p>
                         <div class="fragment">
                             <p>The simpler form of an array is a fixed size structure and looks like:</p>
                             <img src="img/data-structures/true_array.png" alt="True array data structure" style="width: 60%;" />
@@ -440,7 +440,7 @@ next($array);</code></pre>
                     </section>
                 </section>
 
-                <section>
+                <section class="optimized-for-anything">
                     <section data-background-image="img/data-structures/swiss-knife.jpg" data-background-position="center" data-background-size="50%" data-background="#ffffff" data-background-repeat="no-repeat">
                         <h2>Optimized for anything ≈ Optimized for nothing!</h2>
                     </section>
@@ -449,22 +449,197 @@ next($array);</code></pre>
                         <h2>Array: PHP compared to C</h2>
                         <ul>
                             <li>In C: 100 000 integers (using long on 64bits =&gt; 8 bytes) can be stored in 0.76 MiB.</li>
-                            <li class="fragment">In PHP 5:
+                            <li class="fragment" data-fragment-index="0">In PHP <span class="fragment strike" data-fragment-index="1">5</span> <span class="fragment" data-fragment-index="1">7</span>:
                                 <ul>
-                                    <li>it will take ≅ <strong class="fragment strike">13.97 MiB!</strong></li>
-                                </ul>
-                            </li>
-                            <li class="fragment">In PHP <del>5</del> 7:
-                                <ul>
-                                    <li>it will take ≅ <del><strong>13.97 MiB!</strong></del> <strong>4 MiB!</strong>!</li>
+                                    <li>it will take ≅ <strong class="fragment strike" data-fragment-index="1">13.97 MiB!</strong> <strong class="fragment" data-fragment-index="1">4 MiB!</strong></li>
                                 </ul>
                             </li>
                         </ul>
                     </section>
                 </section>
 
-                <section data-background="img/data-structures/data_structure.jpg">
-                    <h2>Data Structures</h2>
+                <section class="arrays">
+                    <h2>(true) Arrays</h2>
+                    <section data-background="img/data-structures/arrays.jpg">
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.jpg">
+                        <p>An array is a fixed size collection where elements are each identified by a numeric index.</p>
+                        <img src="img/data-structures/true_array.png" alt="True array data structure" style="width: 60%;" />
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.jpg">
+                        <h3>using <code>SplFixedArray</code></h3>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$array = new SplFixedArray(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre style="float: left;"><code>$array[0] = 1;
+$array[1] = 2;
+$array[2] = 3;</code></pre>
+                            <pre style="float: right;"><code>$array-&gt;offsetSet(1);
+$array-&gt;offsetSet(2);
+$array-&gt;offsetSet(3);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>$array[0]; // gives 1
+$array[1]; // gives 2
+$array[2]; // gives 3</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.jpg">
+                        <h3>using <code>string</code> (8-bit int)</h3>
+                        <div class="fragment">
+                            <p>Creation:</p>
+                            <pre><code>$array = str_repeat(chr(0), 1024 * 1024);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Add entries:</p>
+                            <pre><code>$array[0] = chr(1 &amp; 0xff);
+$array[1] = chr(2 &amp; 0xff);
+$array[2] = chr(3 &amp; 0xff);</code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>Access them:</p>
+                            <pre><code>ord($array[0]); // gives 1
+ord($array[1]); // gives 2
+ord($array[2]); // gives 3</code></pre>
+                        </div>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.jpg">
+                        <h3>benchmark (memory)</h3>
+                        <h4>Using 10<sup>4</sup> arrays of 1000 elements</h4>
+                        <div id="arrays-memory" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                    new Highcharts.Chart({
+                                        chart: {
+                                            type: 'bar',
+                                            renderTo: 'arrays-memory'
+                                        },
+                                        title: { text: 'Memory usage' },
+                                        yAxis: {
+                                            title: {
+                                                enabled: false
+                                            },
+                                            labels: {
+                                                enabled: false
+                                            }
+                                        },
+                                        xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                        plotOptions: {
+                                            series: {
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    format: '{point.y} MiB'
+                                                }
+                                            }
+                                        },
+                                        legend: { reversed: true },
+                                        series: [
+                                            {
+                                                name: 'string',
+                                                data: [11.18, 12.71],
+                                                tooltip: { valueSuffix: ' MiB' }
+                                            },
+                                            {
+                                                name: 'SplFixedArray',
+                                                data: [539, 159],
+                                                tooltip: { valueSuffix: ' MiB' }
+                                            },
+                                            {
+                                                name: 'Array',
+                                                data: [1378, 353],
+                                                tooltip: { valueSuffix: ' MiB' }
+                                            }
+                                        ]
+                                    })
+                            );
+                        </script>
+                    </section>
+
+                    <section data-background="img/data-structures/arrays.jpg">
+                        <h3>benchmark (speed)</h3>
+                        <h4>Using 10<sup>4</sup> arrays of 1000 elements</h4>
+                        <div id="arrays-time" class="chart"></div>
+
+                        <script>
+                            allCharts.push(
+                                    new Highcharts.Chart({
+                                        chart: {
+                                            type: 'bar',
+                                            renderTo: 'arrays-time'
+                                        },
+                                        title: { text: 'Speed' },
+                                        yAxis: {
+                                            reversedStacks: false,
+                                            min: 0,
+                                            title: {
+                                                enabled: false
+                                            },
+                                            labels: {
+                                                enabled: false
+                                            }
+                                        },
+                                        xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
+                                        plotOptions: {
+                                            series: {
+                                                dataLabels: {
+                                                    enabled: true,
+                                                    format: '{point.y} s'
+                                                }
+                                            },
+                                            bar: { stacking: 'normal' }
+                                        },
+                                        legend: { reversed: true },
+                                        series: [
+                                            {
+                                                name: 'string (iterate)',
+                                                data: [0.88, 0.28],
+                                                tooltip: { valueSuffix: ' s' },
+                                                stack: 'string'
+                                            },
+                                            {
+                                                name: 'string (create)',
+                                                data: [1.05, 0.36],
+                                                tooltip: { valueSuffix: ' s' },
+                                                stack: 'string'
+                                            },
+                                            {
+                                                name: 'SplFixedArray (iterate)',
+                                                data: [0.37, 0.16],
+                                                tooltip: { valueSuffix: ' s' },
+                                                stack: 'SplFixedArray'
+                                            },
+                                            {
+                                                name: 'SplFixedArray (create)',
+                                                data: [0.81, 0.23],
+                                                tooltip: { valueSuffix: ' s' },
+                                                stack: 'SplFixedArray'
+                                            },
+                                            {
+                                                name: 'Array (iterate)',
+                                                data: [0.2, 0.09],
+                                                tooltip: { valueSuffix: ' s' },
+                                                stack: 'Array'
+                                            },
+                                            {
+                                                name: 'Array (create)',
+                                                data: [2.30, 0.31],
+                                                tooltip: { valueSuffix: ' s' },
+                                                stack: 'Array'
+                                            }
+                                        ]
+                                    })
+                            );
+                        </script>
+                    </section>
                 </section>
 
                 <section class="structs">
@@ -605,199 +780,6 @@ next($array);</code></pre>
                             );
                         </script>
                     </section>
-
-                    <section data-background="img/data-structures/structs.png">
-                        <h2>Structs &mdash; Pros and Cons</h2>
-                        <div class="fragment">
-                            <p>Go for <strong><code>objects</code></strong> if you want:</p>
-                            <ul>
-                                <li>type hinting or a rigid structure (more <abbr title="Object Oriented">OO</abbr>)</li>
-                                <li>to gain in terms of memory usage over speed</li>
-                            </ul>
-                        </div>
-                        <div class="fragment">
-                            <p>Go for <strong>arrays</strong> if you want</p>
-                            <ul>
-                                <li>speed, despite bigger memory usage</li>
-                            </ul>
-                        </div>
-                    </section>
-                </section>
-
-                <section class="arrays">
-                    <h2>(true) Arrays</h2>
-                    <section data-background="img/data-structures/arrays.jpg">
-                    </section>
-
-                    <section data-background="img/data-structures/arrays.jpg">
-                        <p>An array is a fixed size collection where elements are each identified by a numeric index.</p>
-                        <img class="fragment" src="img/data-structures/true_array.png" alt="True array data structure" style="width: 60%;" />
-                    </section>
-
-                    <section data-background="img/data-structures/arrays.jpg">
-                        <h3>using <code>SplFixedArray</code></h3>
-                        <div class="fragment">
-                            <p>Creation:</p>
-                            <pre><code>$array = new SplFixedArray(3);</code></pre>
-                        </div>
-                        <div class="fragment">
-                            <p>Add entries:</p>
-                            <pre style="float: left;"><code>$array[0] = 1;
-$array[1] = 2;
-$array[2] = 3;</code></pre>
-                            <pre style="float: right;"><code>$array-&gt;offsetSet(1);
-$array-&gt;offsetSet(2);
-$array-&gt;offsetSet(3);</code></pre>
-                        </div>
-                        <div class="fragment">
-                            <p>Access them:</p>
-                            <pre><code>$array[0]; // gives 1
-$array[1]; // gives 2
-$array[2]; // gives 3</code></pre>
-                        </div>
-                    </section>
-
-                    <section data-background="img/data-structures/arrays.jpg">
-                        <h3>using <code>string</code> (8-bit int)</h3>
-                        <div class="fragment">
-                            <p>Creation:</p>
-                            <pre><code>$array = str_repeat(chr(0), 1024 * 1024);</code></pre>
-                        </div>
-                        <div class="fragment">
-                            <p>Add entries:</p>
-                            <pre><code>$array[0] = chr(1 &amp; 0xff);
-$array[1] = chr(2 &amp; 0xff);
-$array[2] = chr(3 &amp; 0xff);</code></pre>
-                        </div>
-                        <div class="fragment">
-                            <p>Access them:</p>
-                            <pre><code>ord($array[0]); // gives 1
-ord($array[1]); // gives 2
-ord($array[2]); // gives 3</code></pre>
-                        </div>
-                    </section>
-
-                    <section data-background="img/data-structures/arrays.jpg">
-                        <h3>benchmark</h3>
-                        <h4>Using 10<sup>4</sup> arrays of 1000 elements</h4>
-                        <div id="arrays-memory" class="chart"></div>
-                        <div id="arrays-time" class="chart"></div>
-
-                        <script>
-                            allCharts.push(
-                                new Highcharts.Chart({
-                                    chart: {
-                                        type: 'bar',
-                                        renderTo: 'arrays-memory'
-                                    },
-                                    title: { text: 'Memory usage' },
-                                    yAxis: {
-                                        title: {
-                                            enabled: false
-                                        },
-                                        labels: {
-                                            enabled: false
-                                        }
-                                    },
-                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
-                                    plotOptions: {
-                                        series: {
-                                            dataLabels: {
-                                                enabled: true,
-                                                format: '{point.y} MiB'
-                                            }
-                                        }
-                                    },
-                                    legend: { reversed: true },
-                                    series: [
-                                        {
-                                            name: 'string',
-                                            data: [11.18, 12.71],
-                                            tooltip: { valueSuffix: ' MiB' }
-                                        },
-                                        {
-                                            name: 'SplFixedArray',
-                                            data: [539, 159],
-                                            tooltip: { valueSuffix: ' MiB' }
-                                        },
-                                        {
-                                            name: 'Array',
-                                            data: [1378, 353],
-                                            tooltip: { valueSuffix: ' MiB' }
-                                        }
-                                    ]
-                                })
-                            );
-
-                            allCharts.push(
-                                new Highcharts.Chart({
-                                    chart: {
-                                        type: 'bar',
-                                        renderTo: 'arrays-time'
-                                    },
-                                    title: { text: 'Speed' },
-                                    yAxis: {
-                                        reversedStacks: false,
-                                        min: 0,
-                                        title: {
-                                            enabled: false
-                                        },
-                                        labels: {
-                                            enabled: false
-                                        }
-                                    },
-                                    xAxis: { categories: ['PHP 5.6', 'PHP 7'] },
-                                    plotOptions: {
-                                        series: {
-                                            dataLabels: {
-                                                enabled: true,
-                                                format: '{point.y} s'
-                                            }
-                                        },
-                                        bar: { stacking: 'normal' }
-                                    },
-                                    series: [
-                                        {
-                                            name: 'Array (create)',
-                                            data: [2.30, 0.31],
-                                            tooltip: { valueSuffix: ' s' },
-                                            stack: 'Array'
-                                        },
-                                        {
-                                            name: 'Array (iterate)',
-                                            data: [0.2, 0.09],
-                                            tooltip: { valueSuffix: ' s' },
-                                            stack: 'Array'
-                                        },
-                                        {
-                                            name: 'SplFixedArray (create)',
-                                            data: [0.81, 0.23],
-                                            tooltip: { valueSuffix: ' s' },
-                                            stack: 'SplFixedArray'
-                                        },
-                                        {
-                                            name: 'SplFixedArray (iterate)',
-                                            data: [0.37, 0.16],
-                                            tooltip: { valueSuffix: ' s' },
-                                            stack: 'SplFixedArray'
-                                        },
-                                        {
-                                            name: 'string (create)',
-                                            data: [1.05, 0.36],
-                                            tooltip: { valueSuffix: ' s' },
-                                            stack: 'string'
-                                        },
-                                        {
-                                            name: 'string (iterate)',
-                                            data: [0.88, 0.28],
-                                            tooltip: { valueSuffix: ' s' },
-                                            stack: 'string'
-                                        }
-                                    ]
-                                })
-                            );
-                        </script>
-                    </section>
                 </section>
 
                 <section class="queues">
@@ -874,6 +856,11 @@ $queue-&gt;dequeue(); // gives 3</code></pre>
                             <li>Elements are inserted and removed on the same end.</li>
                         </ul>
                         <img src="img/data-structures/stack.png" alt="Stack data structure" style="width: 80%;" />
+                    </section>
+
+                    <section data-background="img/data-structures/stacks.jpg">
+                        <img src="img/data-structures/stacks_elephpants.jpg" width="45%"/>
+                        <p class="credits">Credits: <a href="https://twitter.com/zeevs">@zeevs</a>.</p>
                     </section>
 
                     <section data-background="img/data-structures/stacks.jpg">
@@ -1211,31 +1198,6 @@ $set1-&gt;removeAll($set2); // complement</code></pre>
                     </section>
 
                     <section data-background="img/data-structures/sets.svg">
-                        <h2>Sets</h2>
-                        <pre><code>function remove($path, $files = true, $dir = true, $links = true, $exec = true)
-{
-    if (!$files &amp;&amp; is_file($path))
-        return false;
-
-    if (!$dir &amp;&amp; is_dir($path))
-        return false;
-
-    if (!$links &amp;&amp; is_link($path))
-        return false;
-
-    if (!$exec &amp;&amp; is_executable($path))
-        return false;
-    // ...
-}</code></pre>
-                    </section>
-
-                    <section data-background="img/data-structures/sets.svg">
-                        <h2>Sets</h2>
-                        <pre><code>remove("/tmp/removeMe", true, false, true, false);</code></pre>
-                        <img class="fragment" src="img/data-structures/wtf.jpg" alt="WTF?!" style="width: 80%"/>
-                    </section>
-
-                    <section data-background="img/data-structures/sets.svg">
                         <h2>Sets &mdash; Using bitsets</h2>
                         <pre><code>define("E_ERROR",   1);
 define("E_WARNING", 2);
@@ -1271,36 +1233,6 @@ $set1 ^ $set2; // complement</code></pre>
                     </section>
 
                     <section data-background="img/data-structures/sets.svg">
-                        <h2>Sets &mdash; Using bitsets (example)</h2>
-                        <pre><code>define("REMOVE_FILES", 1 &lt;&lt; 0);
-define("REMOVE_DIRS",  1 &lt;&lt; 1);
-define("REMOVE_LINKS", 1 &lt;&lt; 2);
-define("REMOVE_EXEC",  1 &lt;&lt; 3);
-define("REMOVE_ALL",   ~0); // Setting all bits
-
-function remove($path, $options = REMOVE_ALL)
-{
-    if (~$options &amp; REMOVE_FILES &amp;&amp; is_file($path))
-        return false;
-
-    if (~$options &amp; REMOVE_DIRS &amp;&amp; is_dir($path))
-        return false;
-
-    if (~$options &amp; REMOVE_LINKS &amp;&amp; is_link($path))
-        return false;
-
-    if (~$options &amp; REMOVE_EXEC &amp;&amp; is_executable($path))
-        return false;
-    // ...
-}</code></pre>
-                    </section>
-
-                    <section data-background="img/data-structures/sets.svg">
-                        <h2>Sets &mdash; Using bitsets (example)</h2>
-                        <pre><code>remove("/tmp/removeMe", REMOVE_FILES | REMOVE_LINKS);</code></pre>
-                    </section>
-
-                    <section data-background="img/data-structures/sets.svg">
                         <h2>Sets &mdash; Using <code>QuickHash</code> (int)</h2>
                         <div class="fragment">
                             <p>Creation:</p>
@@ -1319,20 +1251,6 @@ $set-&gt;exists(5); // false</code></pre>
                             <pre style="float: right"><code>isset($set[2]); // true
 isset($set[5]); // false</code></pre>
                         </div>
-                        <ul>
-                            <li class="fragment">No union/intersection/complement operations (yet?):</li>
-                            <li class="fragment">Nice features like: <code>loadFrom(String|File)()</code> and <code>saveTo(String|File)()</code>
-                        </ul>
-                    </section>
-
-                    <section data-background="img/data-structures/sets.svg">
-                        <ul>
-                            <li>Use the <strong>key</strong> and not the value when using PHP Arrays.</li>
-                            <li>Use <strong><code>SplObjectStorage</code></strong> as soon as you are dealing with objects.</li>
-                            <li>Use <strong><code>bitsets</code></strong> when dealing with finite number of elements (and known in advance).</li>
-                            <li>Use <strong><code>QuickHash</code></strong> for set of integers if possible.</li>
-                            <li>Avoid <code>array_unique()</code> / <code>in_array()</code> at all price!</li>
-                        </ul>
                     </section>
                 </section>
 
@@ -1416,174 +1334,6 @@ $map["THREE"] = 3;</code></pre>
                                 })
                             );
                         </script>
-                    </section>
-                </section>
-
-                <section class="heaps">
-                    <section>
-                        <h2>Heaps</h2>
-                        <ul class="fragment">
-                            <li>A heap is a tree-based structure in which all elements are ordered with largest key at the top, and the smallest one as leafs (or the opposite).</li>
-                        </ul>
-
-                        <svg class="fragment" xmlns="http://www.w3.org/2000/svg" width="501" height="370.96875" id="svg2" version="1.1">
-                            <defs id="defs4">
-                                <linearGradient>
-                                    <stop style="stop-color:#ffffff;stop-opacity:1;" offset="0"/>
-                                </linearGradient>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                </linearGradient>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                </linearGradient>
-                                <radialGradient cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428" gradientUnits="userSpaceOnUse"/>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                                <radialGradient gradientUnits="userSpaceOnUse" cx="161.42857" cy="458.07648" fx="161.42857" fy="458.07648" r="28.571428"/>
-                                <linearGradient>
-                                    <stop style="stop-color:#000000;stop-opacity:1;" offset="0"/>
-                                    <stop style="stop-color:#000000;stop-opacity:0;" offset="1"/>
-                                </linearGradient>
-                            </defs>
-                            <g id="layer1" style="display:inline" transform="translate(30.5,-391.875)">
-                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 25,697.36218 50,-90 50,90"/>
-                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 75,607.36218 55,-95 0,0 55,95"/>
-                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 130,512.36218 105,-60 100,60 -50,95"/>
-                                <path style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="m 390,607.36218 -55,-95"/>
-                                <g/>
-                            </g>
-                            <g id="layer2" style="display:inline" transform="translate(30.5,-391.875)">
-                                <g transform="translate(79.359283,2.8769531)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-71);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan id="tspan5343" y="459.48523" x="155.64072" >142</tspan></text>
-                                </g>
-                                <g transform="translate(-25.640717,62.876953)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-8-2);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5627">23</tspan></text>
-                                </g>
-                                <g transform="translate(179.35928,62.876953)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-6-5);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5629">109</tspan></text>
-                                </g>
-                                <g transform="translate(-80.640717,157.87695)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-5-7);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5631">16</tspan></text>
-                                </g>
-                                <g transform="translate(29.359283,157.87695)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-64-0);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5633">22</tspan></text>
-                                </g>
-                                <g transform="translate(129.35928,157.87695)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-2-3);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5635">99</tspan></text>
-                                </g>
-                                <g transform="translate(234.35928,157.87695)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-28-6);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan y="459.48523" x="155.64072" id="tspan5637">108</tspan></text>
-                                </g>
-                                <g transform="translate(-130.64072,247.87695)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-3-8);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan id="tspan5343-2" y="459.48523" x="155.64072" >2</tspan></text>
-                                </g>
-                                <g transform="translate(-30.640717,247.87695)">
-                                    <path transform="matrix(1.1875,0,0,1.1875,-33.482144,-89.103626)" style="fill:url(#radialGradient5355-9-4);fill-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z"/>
-                                    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" d="m 190,458.07648 c 0,15.77956 -12.79186,28.57143 -28.57143,28.57143 -15.77956,0 -28.57142,-12.79187 -28.57142,-28.57143 0,-15.77957 12.79186,-28.57143 28.57142,-28.57143 15.77957,0 28.57143,12.79186 28.57143,28.57143 z" transform="translate(-5.7142882,-8.5714379)" />
-                                    <text y="459.48523" x="155.64072" style="font-size:29.83442497px;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle" xml:space="preserve"><tspan id="tspan5343-88" y="459.48523" x="155.64072" >7</tspan></text>
-                                </g>
-                            </g>
-                        </svg>
-
-                    </section>
-
-                    <section>
-                        <h2>Heaps &mdash; Using <code>Spl(Min|Max)Heap</code></h2>
-                        <pre><code>$heap = new SplMinHeap;</code></pre>
-                        <pre><code>$heap-&gt;insert(30);
-$heap-&gt;insert(20);
-$heap-&gt;insert(25);</code></pre>
-
-                        <pre><code>var_dump($heap-&gt;top());
-
-/* int(20) */
-
-foreach ($heap as $elem) {
-    var_dump($elem);
-}
-/*
-int(20)
-int(25)
-int(30)
-*/</code></pre>
-                    </section>
-
-                    <section>
-                        <h2>Heaps &mdash; Conclusions</h2>
-                        <ul>
-                            <li class="fragment">MUCH faster than having to re-<code>sort()</code> an array at every insertion.</li>
-                            <li class="fragment">Regular PHP arrays perform better than <code>SplHeaps</code> if you don't require a collection to be sorted at <strong>every</strong> single step.</li>
-                            <li class="fragment"><code>SplPriorityQueue</code> is very similar, consider it is the same as <code>SplHeap</code> but where the sorting is made on a key rather than the value.</li>
-                        </ul>
                     </section>
                 </section>
 
@@ -1702,8 +1452,8 @@ echo $sparseArray[42];  // will print 0</code></pre>
                             <pre><code>$bitset = new Judy(Judy::BITSET);
 $bitset[124] = true;
 
-print $bitset[124]; // will print 1
-print $bitset[100]; // will print 0
+echo $bitset[124]; // will print 1
+echo $bitset[100]; // will print 0
 
 $bitset[124] = false; // is the same as unset($bitset[124])</code></pre>
                         </div>
@@ -1714,7 +1464,6 @@ $bitset[124] = false; // is the same as unset($bitset[124])</code></pre>
                     <h2>Conclusions</h2>
                     <ul>
                         <li class="fragment">Use appropriate data structure. It will keep your code <strong>self-documenting and fast</strong>.</li>
-                        <li class="fragment">Think about the time and space complexity involved by your algorithms.</li>
                         <li class="fragment">Name your variables accordingly: use “Map”, “Set”, “List”, “Queue”,... to describe them instead of (always) naming it: <code>$array</code>.</li>
                     </ul>
                 </section>
@@ -1725,7 +1474,9 @@ $bitset[124] = false; // is the same as unset($bitset[124])</code></pre>
 
                 <section class="thanks">
                     <h2>Thanks</h2>
-                    <p>Don't forget to rate this talk on <a itemprop="discussionUrl" href="https://joind.in/14717">https://joind.in/14717</a></p>
+                    <p>Don't forget to rate this talk on <a itemprop="discussionUrl" href="https://joind.in/14717">https://joind.in/15268</a></p>
+
+                    <p>Slides available at <a href="https://catchy.io/slides/">https://catchy.io/slides/</a>.</p>
 
                     <h3>Stay in touch!</h3>
                     <p><a href="https://twitter.com/patrick_allaert/">@patrick_allaert</a></p>
