@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Welcome PHP7" />
+    <meta property="og:url" content="https://slides.catchy.io/Welcome-PHP7.html" />
+    <meta property="og:description" content="Ces slides présentent les nouvelles fonctionnalitées de PHP 7 qui est sorti le 3/12/2015" />
+    <meta property="og:site_name" content="catchy.io" />
+    <meta property="og:image" content="https://slides.catchy.io/img/rock-solid-code/presentation_thumbnail.jpg" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image:src" content="https://slides.catchy.io/img/rock-solid-code/presentation_thumbnail.jpg">
+    <meta name="twitter:title" content="slides.catchy.io - Bienvenue PHP 7">
+    <meta name="twitter:description" content="Ces slides présentent les nouvelles fonctionnalitées de PHP 7 qui est sorti le 3/12/2015.">
+    <meta name="twitter:creator" content="@0livier">
+    <meta name="twitter:site" content="@0livier">
+
+    <title>Bienvenue PHP 7</title>
+
+    <meta name="description" content="Ces slides présentent les nouvelles fonctionnalitées de PHP 7 qui est sorti le 3/12/2015.">
+    <meta name="author" content="Olivier Garcia">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+
+    <link rel="stylesheet" href="css/catchy.css">
+    <link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+        var allCharts = [];
+    </script>
+
+    <script>
+        if (window.location.protocol != "file:") {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                            (i[r].q = i[r].q || []).push(arguments)
+                        }, i[r].l = 1 * new Date();
+                a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-49964131-4', 'auto');
+            ga('send', 'pageview');
+        }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+
+<body class="welcome php" itemscope itemtype="http://schema.org/TechArticle">
+<meta itemprop="datePublished" content="2015-12-10"/>
+<meta itemprop="headline" content="Bienvenue PHP 7"/>
+<meta itemprop="image" content="https://slides.catchy.io/img/welcome-php7/screenshot.jpg" />
+<meta itemprop="thumbnailUrl" content="https://slides.catchy.io/img/welcome-php7/screenshot-thumb.jpg" />
+<div itemprop="publication" itemscope itemtype="http://schema.org/PublicationEvent">
+    <meta itemprop="name" content="Bienvenue PHP7"/>
+    <meta itemprop="startDate" content="2015-09-24T10:30:00-05:00"/>
+    <meta itemprop="endDate" content="2015-09-24T11:30:00-05:00"/>
+    <meta itemprop="url" content="http://www.hr-rail.be/"/>
+    <meta itemprop="duration" content="PT1H"/>
+    <meta itemprop="inLanguage" content="fr"/>
+</div>
+<div class="reveal">
+    <div class="slides">
+        <section data-background="img/welcome-php7/cake-bg.jpg" class="first">
+            <h1 itemprop="name">Bienvenue PHP 7</h1>
+        </section>
+
+        <!-- PHP 5.4 -->
+        <section>
+            <h3>Main new features of PHP 5.4</h3>
+            <ul>
+                <li>Traits</li>
+                <li>[] Array syntax</li>
+                <li>Array access to function result (<code>$foo->list()[0];</code>)</li>
+            </ul>
+        </section>
+
+        <!-- PHP 5.5 -->
+        <section>
+            <h3>Main new features of PHP 5.5</h3>
+            <ul>
+                <li>Generators (using <code>yield</code>)</li>
+                <li>try/catch support <code>finally</code> </li>
+                <li><code>empty()</code> allows parameter other than variables</li>
+                <li><code>echo 'foo'[1]; // o</code></li>
+            </ul>
+        </section>
+
+        <!-- PHP 5.6 -->
+        <section>
+            <h3>Main new features of PHP 5.6</h3>
+            <ul>
+                <li>Constants can be expressions (<code>const FOO = 2/3;</code>)</li>
+                <li>Variadic functions:
+                    <pre><code>function foo($i, ...$extra) {
+    var_dump($extra);
+}</code></pre>
+                </li>
+                <li>Argument unpacking via ...
+                    <pre><code>function add($a, $b, $c) {
+    return $a + $b + $c;
+}
+
+$operators = [2, 3];
+echo add(1, ...$operators);</code></pre>
+                </li>
+                <li>Use works for constants and functions
+                    <pre><code>use const Name\Space\FOO;</code></pre>
+                </li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h1>On with PHP 7</h1>
+        </section>
+
+        <!-- PHP 7 -->
+        <section>
+            <h5>PHP 7 - Userland</h5>
+
+            <!-- Scalar Type Hints & Return Types -->
+            <!-- Dual-mode scalar type hints (weak by default, toggleable to strict via a per-file syntax) -->
+            <section>
+                <h3>Scalar Type Hints & Return Types</h3>
+                <pre><code>&lt;?php
+
+$cache = [42 => 'Answer'];
+
+function isCached(int $id): bool {
+    global $cache;
+    return isset($cache[$id]);
+}
+
+var_dump(isCached(42)); // affiche true
+var_dump(isCached('42')); // affiche true
+var_dump(isCached('foo')); // Uncaught TypeError  </code></pre>
+                <aside class="notes">
+                    Trés contreversé
+                </aside>
+            </section>
+            <section>
+                <h3>Scalar Type Hints & Return Types</h3>
+                <pre><code>&lt;?php
+declare(strict_types=1); // must be the first line
+require('cache.php');
+var_dump(isCached('42')); // Catchable fatal error
+                </code></pre>
+            </section>
+
+            <!-- Uniform Variable Syntax -->
+            <section>
+                <h3>Uniform Variable Syntax</h3>
+                <p><i class="fa fa-exclamation-triangle"></i> Can break older things <i class="fa fa-exclamation-triangle"></i></p>
+                <pre><code>($object->closureProperty)();</code></pre>
+                <pre><code>$obj->$properties['name']; // Is interpreted as
+$obj->{$properties['name']}; // PHP 5.6
+{$obj->$properties}['name']; // PHP 7</code></pre>
+                <aside class="notes">
+                    Two default: in switch will throw a fatal error
+                </aside>
+            </section>
+
+            <!-- Catchable fatal errors -->
+            <section>
+                <h3>Engine exception</h3>
+                <pre><code>function call_method($obj) {
+    $obj->method();
+}
+
+try {
+    call_method(null); // oops!
+} catch (EngineException $e) {
+    echo "Exception: {$e->getMessage()}\n";
+} // Exception: Call to a member function method() on a non-object
+
+try {
+    nonExistentFunction();
+} catch (\EngineException $e) {
+    echo "Exception: {$e->getMessage()}\n";
+} // PHP Fatal error:  Call to undefined function nonExistentFunction() in php shell code on line 2</code></pre>
+            </section>
+
+            <!-- SPACESHIP -->
+            <section>
+                <h3>&lt;=&gt;</h3>
+            </section>
+            <section data-background="img/welcome-php7/maxresdefault.jpg">
+            </section>
+            <section>
+                <h3>SPACESHIP !</h3>
+                <pre><code>echo 1 <=> 1; // 0
+echo 1 <=> 2; // -1
+echo 2 <=> 1; // 1
+
+$a = (object) ["a" => "b"];
+$b = (object) ["a" => "b"];
+echo $a <=> $b; // 0
+
+$c = (object) ["a" => "c"];
+echo $a <=> $c; // -1</code></pre>
+                <aside class="notes">
+                    43 vs 11
+                    https://wiki.php.net/rfc/combined-comparison-operator
+                </aside>
+            </section>
+            <section>
+                <h3>AKA Combined Comparison Operator</h3>
+                <pre class="fragment"><code>Zend/zend_language_parser.y:%token T_SPACESHIP "<=> (T_SPACESHIP)"</code></pre>
+                <pre class="fragment"><code>$data = [ [0, 'Olivier'], [1, 'Alexandre'] ];
+
+// Pre PHP 7
+usort($data, function ($left, $right) {
+    return $left[1] < $right[1] ? -1 : (($left[1] > $right[1]) ? 1 : 0);
+});
+
+// PHP 7
+usort($data, function ($left, $right) {
+    return $left[1] <=> $right[1];
+});</code></pre>
+            </section>
+
+            <!-- Null coalesce operator (??) -->
+            <section>
+                <h3>Null coalesce operator</h3>
+                <pre><code>// Pre PHP 7
+$name = isset($_GET['name']) ? $_GET['name'] : 'John Doe';
+
+
+// PHP 7
+$name = $_GET['name']) ?? 'John Doe';</code></pre>
+            </section>
+
+            <!-- Closure::call -->
+            <section>
+                <h3>Closures : Bind variables on call</h3>
+                <pre><code>class HelloWorld {
+    private $greeting = "Hello";
+}
+
+$closure = function($whom) { echo $this->greeting . ' ' . $whom; }
+
+$obj = new HelloWorld();
+$closure->call($obj, 'World'); // Hello World</code></pre>
+            </section>
+
+            <!-- Context sensitive lexer, allowing the use of reserved words in more places -->
+            <section>
+                <h3>Context sensitive lexer</h3>
+                <p></p>
+                <pre><code>class View {
+    public function include(View $view) {
+        //...
+    }
+}
+
+$viewA = new View('a.view');
+$viewA->include(new View('b.view'));</code></pre>
+            </section>
+            <section>
+                <h3>Context sensitive lexer</h3>
+                <small>
+                    <code>callable  class  trait  extends  implements  static  abstract  final  public  protected  private  const
+                        enddeclare  endfor  endforeach  endif  endwhile  and  global  goto  instanceof  insteadof  interface
+                        namespace  new  or  xor  try  use  var  exit  list  clone  include  include_once  throw  array
+                        print  echo  require  require_once  return  else  elseif  default  break  continue  switch  yield
+                        function  if  endswitch  finally  for  foreach  declare  case  do  while  as  catch  die  self parent</code>
+                </small>
+            </section>
+
+            <!-- Anonymous classes -->
+            <section>
+                <h3>Anonymous classes</h3>
+                <pre><code>$foo = new class {
+    public function displayName()
+    {
+        echo "Olivier";
+    }
+};
+
+$foo->displayName(); // affiche "Olivier"</code></pre>
+            </section>
+
+            <!-- Expectations -->
+
+            <!-- Use declaration grouping -->
+            <section>
+                <h3>Use Declaration grouping</h3>
+                <pre><code>use foo\bar\ClassA;
+use foo\bar\ClassB;
+use foo\bar\ClassC as C;
+
+use function foo\bar\FunctionA;
+use function foo\bar\FunctionB;
+
+use const foo\bar\ConstA;
+use const foo\bar\ConstB;
+
+// PHP 7+ code
+use foo\bar\{ClassA, ClassB, ClassC as C};
+use function foo\bar\{fn_a, fn_b, fn_c};
+use const foo\bar\{ConstA, ConstB, ConstC};</code></pre>
+            </section>
+
+            <!-- Unicode escape syntax in strings -->
+            <section>
+                <h3>Express unicode in strings</h3>
+                <pre><code>echo "\u{1F49A}"; // &#128154; </code></pre>
+            </section>
+
+            <!-- Removed -->
+            <section>
+                <h3>Retiré (enfin)</h3>
+                <ul>
+                    <li>ext/ereg (déprécié depuis 5.3)</li>
+                    <li>ext/mysql (déprécié depuis 5.5)</li>
+                </ul>
+            </section>
+        </section>
+
+        <!-- PHP 7 -->
+        <section>
+            <h5>PHP 7 - Internal</h5>
+
+            <!-- Abstract syntax tree -->
+            <section>
+                <h3>Abstract Syntax Tree</h3>
+                <p>Peu/pas d'impact (si cache d'opcode), plus de maintenabilité pour les dev du noyau PHP</p>
+            </section>
+
+            <!-- SPEEEEED -->
+            <section>
+                <h3>Speed</h3>
+                <img src="img/welcome-php7/lightspeed.gif"/>
+            </section>
+            <section>
+                <h3>Wordpress Benchmark</h3>
+            </section>
+            <section>
+                <h3>AMS Benchmark</h3>
+            </section>
+            <section>
+                <h3>How ????</h3>
+                <p>Gros travail sur la représentation des datas et leur passage lors d'appels de fonctions/méthodes. Fait par Zend.</p>
+            </section>
+        </section>
+
+        <section>
+            <h1>Read more about that</h1>
+            <a href="https://nikic.github.io/2015/05/05/Internal-value-representation-in-PHP-7-part-1.html">Nikita's blog post on ZVAL in PHP7</a>
+        </section>
+        <!-- -->
+
+        <section class="questions">
+            <h2>Questions?</h2>
+        </section>
+
+    </div>
+
+    <!--<footer class="catchy">-->
+        <!--<a href="https://catchy.io/"><img src="lib/img/logo/catchy.io.logo.png" alt="Catchy.io logo" id="logo">-->
+            <!--<span>&mdash;</span>-->
+            <!--Monitoring for <code>E_ALL</code>-->
+        <!--</a>-->
+    <!--</footer>-->
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true },
+            { src: 'plugin/notes/notes.js', async: true }
+        ]
+    });
+
+    var charts = document.getElementsByClassName("chart");
+    for (var i = 0; i < charts.length; ++i) {
+        charts[i].onclick = function () {
+            this.classList.toggle("modal");
+            for (var i = 0; i < allCharts.length; ++i) {
+                allCharts[i].reflow();
+            }
+            Reveal.configure();
+        }
+    }
+</script>
+</body>
+</html>

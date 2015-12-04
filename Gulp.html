@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Write Rock SOLID Code" />
+        <meta property="og:url" content="https://slides.catchy.io/Write-Rock-SOLID-Code.html" />
+        <meta property="og:description" content="Thoses slides present how to enhance code using SOLID principles, including 'single responsibility' or 'Liskov substitution'." />
+        <meta property="og:site_name" content="catchy.io" />
+        <meta property="og:image" content="https://slides.catchy.io/img/rock-solid-code/presentation_thumbnail.jpg" />
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image:src" content="https://slides.catchy.io/img/rock-solid-code/presentation_thumbnail.jpg">
+        <meta name="twitter:title" content="slides.catchy.io - Write Rock SOLID Code">
+        <meta name="twitter:description" content="Thoses slides present how to enhance code using SOLID principles, including 'single responsibility' or 'Liskov substitution'.">
+        <meta name="twitter:creator" content="@catchy_io">
+        <meta name="twitter:site" content="@catchy_io">
+
+        <title>Git Tricks you may not know</title>
+
+        <meta name="description" content="This page presents how to enhance code quality using the 5 SOLID principles, including 'single responsibility' or 'Liskov substitution'.">
+        <meta name="author" content="Olivier Garcia">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+
+        <link rel="stylesheet" href="css/catchy.css">
+        <link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+            var allCharts = [];
+        </script>
+
+        <script>
+            if (window.location.protocol != "file:") {
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-49964131-4', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body class="git tricks" itemscope itemtype="http://schema.org/TechArticle">
+        <meta itemprop="datePublished" content="2015-10-14"/>
+        <meta itemprop="headline" content=""/>
+        <meta itemprop="image" content="https://slides.catchy.io/img/rock-solid-code/rock-solid-code.jpg" />
+        <meta itemprop="thumbnailUrl" content="https://slides.catchy.io/img/rock-solid-code/presentation_thumbnail.png" />
+        <div itemprop="publication" itemscope itemtype="http://schema.org/PublicationEvent">
+            <meta itemprop="name" content="Write Rock SOLID Code"/>
+            <meta itemprop="startDate" content="2015-09-24T10:30:00-05:00"/>
+            <meta itemprop="endDate" content="2015-09-24T11:30:00-05:00"/>
+            <meta itemprop="url" content="http://www.hr-rail.be/"/>
+            <meta itemprop="duration" content="PT1H"/>
+            <meta itemprop="inLanguage" content="en"/>
+        </div>
+        <div class="reveal">
+            <div class="slides">
+                <section class="first">
+                    <h1 itemprop="name">Gulp</h1>
+                </section>
+
+                <!--<section data-background="lib/img/logo/catchy.io.background.png" itemprop="author" itemscope itemtype="http://schema.org/Person">-->
+                    <!--<meta itemprop="email" content="oliviergarcia@php.net"/>-->
+                    <!--<meta itemprop="image" content="https://pbs.twimg.com/profile_images/2218726509/olivier_128.jpg"/>-->
+                    <!--<h2>Hello, I'm <span itemprop="givenName">Olivier</span> <span itemprop="familyName">Garcia</span></h2>-->
+                    <!--<p><a href="https://twitter.com/0livier/">@0livier</a>, Full stack <code>(dev|dad|<span itemprop="jobTitle">CEO</span> of <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><meta itemprop="logo" content="lib/img/logo/catchy.io.logo.png"/><a href="https://catchy.io/" itemprop="url"><span itemprop="name">catchy.io</span></a></span>)</code></p>-->
+                    <!--<ul>-->
+                        <!--<li class="fragment">Co-organizer of <a href="http://agiletour-lille.org">Agile Tour Lille 2014 & 2015</a></li>-->
+                        <!--<li class="fragment">Soon PHP internals contributor</li>-->
+                        <!--<li class="fragment">Tries to unhook from chocolate</li>-->
+                    <!--</ul>-->
+                <!--</section>-->
+
+                <section>
+                    <h2>Assetic</h2>
+                    <aside></aside>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Les coolkids utilisent Gulp</h1>
+                        <h2>Quelle niveau de coolitude ?</h2>
+                    </section>
+                    <section data-background="img/kot-kote-edinorog-raduga.jpg">
+                        <aside class="notes">At the time of writing, Gulp has 1438 plugins available.</aside>
+                    </section>
+                </section>
+
+                <!--Find a git commit-->
+                <section class="solid">
+                    <section>
+                        <h2>Commencer un projet sous Gulp</h2>
+                        <pre class="fragment"><code>$ npm init
+$ npm install --save-dev gulp gulp-sass gulp-rename gulp-concat
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>gulpfile.js à la racine du projet</h2>
+                        <pre><code>
+gulp.task('styles', function() {
+  return sass('src/styles/main.scss', { style: 'expanded' })
+    .pipe(gulp.dest('dist/assets/css'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('dist/assets/css'))
+});
+</code></pre>
+                    </section>
+                    <section style="">
+                        <pre><code lang="javascript" style="max-height: 1400px;">gulp.src([
+        'vendor/components/jquery/jquery.min.js',
+        'vendor/twbs/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+        'js/app.js'
+    ])
+    .pipe(concat('app.min.js))
+    .pipe(gulp.dest('web/js/'));</code></pre>
+                    </section>
+                    <section>
+                        <pre><code lang="javascript" style="left: 0; width: 130%; max-height: 1400px;">var filename = 'med-' + Math.floor(Date.now() / 1000) + '.min.js';
+fs.readFile('app/Resources/views/base.html.twig', 'utf8', function (err, data) {
+    if (err) {
+        return console.log(err);
+    }
+    var result = data.replace(/.js.med-.+\.min.js/g, '/js/' + filename);
+
+    fs.writeFile('app/Resources/views/base.html.twig', result, 'utf8', function (err) {
+        if (err) return console.log(err);
+    });
+});
+                    </code></pre>
+                    </section>
+                    <section>
+                        <pre><code>
+gulp.task('watch', function () {
+    gulp.watch('./sass/**/*.scss', ['sass']);
+});
+
+
+// Default Task
+gulp.task('default', ['sass', 'watch']);
+                    </code></pre>
+                    </section>
+                </section>
+
+                <section class="questions">
+                    <h2>Questions?</h2>
+                </section>
+
+            </div>
+
+            <footer class="catchy">
+                <a href="https://catchy.io/"><img src="lib/img/logo/catchy.io.logo.png" alt="Catchy.io logo" id="logo">
+                <span>&mdash;</span>
+                Monitoring for <code>E_ALL</code>
+                </a>
+            </footer>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                height: '100%',
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+
+            var charts = document.getElementsByClassName("chart");
+            for (var i = 0; i < charts.length; ++i) {
+                charts[i].onclick = function () {
+                    this.classList.toggle("modal");
+                    for (var i = 0; i < allCharts.length; ++i) {
+                        allCharts[i].reflow();
+                    }
+                    Reveal.configure();
+                }
+            }
+        </script>
+    </body>
+</html>
