@@ -98,11 +98,30 @@
         <section>
             <h3>Main new features of PHP 5.5</h3>
             <ul>
-                <li>Generators (using <code>yield</code>)</li>
                 <li>try/catch support <code>finally</code> </li>
                 <li><code>empty()</code> allows parameter other than variables</li>
                 <li><code>echo 'foo'[1]; // o</code></li>
+                <li>Generators (using <code>yield</code>)</li>
             </ul>
+        </section>
+
+        <section>
+            <h3>Yield what ???</h3>
+            <pre><code>function guessMyName() {
+    $last = 0;
+    $current = 1;
+    yield 1;
+    while (true) {
+        $current = $last + $current;
+        $last = $current - $last;
+        yield $current;
+    }
+}
+
+foreach(guessMyName() as $i => $value) {
+    echo "$i: $value\n";
+    if($i>10) break;
+}</code></pre>
         </section>
 
         <!-- PHP 5.6 -->
@@ -113,7 +132,7 @@
                 <li>Variadic functions:
                     <pre><code>function foo($i, ...$extra) {
     var_dump($extra);
-}</code></pre>
+} // foo(1,2,3); => $extra contains [2,3]</code></pre>
                 </li>
                 <li>Argument unpacking via ...
                     <pre><code>function add($a, $b, $c) {
