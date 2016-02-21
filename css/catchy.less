@@ -322,6 +322,202 @@ body.php.data.structures {
     }
 }
 
+body.php-7 {
+    @-webkit-keyframes logo {
+        0% { -webkit-transform: scale(1); opacity: 1; }
+        50% { opacity: 1; }
+        100% { -webkit-transform: scale(0.1); opacity: 0; }
+    }
+
+    @-moz-keyframes logo {
+        0% { -moz-transform: scale(1); opacity: 1; }
+        50% { opacity: 1; }
+        100% { -moz-transform: scale(0.1); opacity: 0; }
+    }
+
+    @-ms-keyframes logo {
+        0% { -ms-transform: scale(1); opacity: 1; }
+        50% { opacity: 1; }
+        100% { -ms-transform: scale(0.1); opacity: 0; }
+    }
+
+    @-o-keyframes logo {
+        0% { -o-transform: scale(1); opacity: 1; }
+        50% { opacity: 1; }
+        100% { -o-transform: scale(0.1); opacity: 0; }
+    }
+
+    @keyframes logo {
+        0% { transform: scale(1); opacity: 1; }
+        50% { opacity: 1; }
+        100% { transform: scale(0.1); opacity: 0; }
+    }
+
+    /* animation */
+    @-webkit-keyframes scroll {
+        0% { top: 100%; }
+        100% { top: -170%; }
+    }
+
+    @-moz-keyframes scroll {
+        0% { top: 100%; }
+        100% { top: -170%; }
+    }
+
+    @-ms-keyframes scroll {
+        0% { top: 100%; }
+        100% { top: -170%; }
+    }
+
+    @-o-keyframes scroll {
+        0% { top: 100%; }
+        100% { top: -170%; } /* FIXME */
+    }
+
+    @keyframes scroll {
+        0% { top: 100%; }
+        100% { top: -490%; }
+    }
+
+    background: black;
+
+    .reveal .slides h1 {
+        font-size: 62px;
+    }
+
+    div.reveal {
+        section.first, section.history {
+            font-family: "Droid Sans", arial, verdana, sans-serif;
+            line-height: 1.7em;
+
+            h1 {
+                position: absolute;
+                width: 2.6em;
+                left: 50%;
+                top: 25%;
+                font-weight: bold;
+                font-size: 10em;
+                text-align: center;
+                margin-left: -1.3em;
+                line-height: 0.8em;
+                letter-spacing: -0.05em;
+                color: #000;
+                text-shadow: -2px -2px 0 #ff6, 2px -2px 0 #ff6, -2px 2px 0 #ff6, 2px 2px 0 #ff6;
+                z-index: 1;
+            }
+
+            h2 {
+                text-align: center;
+                letter-spacing: -0.05em;
+                color: #000 !important;
+                text-shadow: -4px -4px 0 #ff6, 4px -4px 0 #ff6, -4px 4px 0 #ff6, 4px 4px 0 #ff6 !important;
+            }
+
+            h1 sub {
+                display: block;
+                font-size: 0.3em;
+                letter-spacing: 0;
+                line-height: 0.8em;
+            }
+        }
+        #crawl-help {
+            position: relative;
+            top: -4em;
+            color: #555;
+        }
+        section.history.star-wars {
+            h1 {
+                opacity: 0;
+                -webkit-animation: logo 5s ease-out 0s;
+                -moz-animation: logo 5s ease-out 0s;
+                -ms-animation: logo 5s ease-out 0s;
+                -o-animation: logo 5s ease-out 0s;
+                animation: logo 5s ease-out 0s;
+            }
+
+            #crawl .content
+            {
+                -webkit-animation: scroll 80s linear 0s;
+                -moz-animation: scroll 80s linear 0s;
+                -ms-animation: scroll 80s linear 0s;
+                -o-animation: scroll 80s linear 0s ;
+                animation: scroll 120s linear 0s ;
+            }
+            #crawl-help {
+                display: none;
+            }
+        }
+        section.history {
+
+            /* the interesting 3D scrolling stuff */
+            #crawl {
+                position: absolute;
+                width: 22em;
+                height: 26em;
+                bottom: 0;
+                left: 50%;
+                margin-left: -11em;
+                font-size: 350%;
+                text-align: justify;
+                overflow: hidden;
+                -webkit-transform-origin: 50% 100%;
+                -moz-transform-origin: 50% 100%;
+                -ms-transform-origin: 50% 100%;
+                -o-transform-origin: 50% 100%;
+                transform-origin: 50% 160%;
+                -webkit-transform: perspective(1300px) rotateX(25deg);
+                -moz-transform: perspective(1300px) rotateX(25deg);
+                -ms-transform: perspective(1300px) rotateX(25deg);
+                -o-transform: perspective(1300px) rotateX(25deg);
+                transform: perspective(1300px) rotateX(25deg);
+
+                &:after {
+                    position: absolute;
+                    content: ' ';
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 60%;
+                    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 1) 0%, transparent 100%);
+                    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 1) 0%, transparent 100%);
+                    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 1) 0%, transparent 100%);
+                    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 1) 0%, transparent 100%);
+                    background-image: linear-gradient(top, rgba(0, 0, 0, 1) 0%, transparent 100%);
+                    pointer-events: none;
+                }
+
+                p {
+                    text-align: justify;
+                    margin: 0.8em 0;
+                }
+
+                .content {
+                    position: absolute;
+                    top: 100%;
+                    p, h2, ul {
+                        color: #ff6;
+                        font-weight: bold;
+                        line-height: 1.3em;
+                    }
+                    h2 {
+                        margin-top: 2em;
+                    }
+                    code {
+                        max-height: none;
+                    }
+                    p {
+                        margin: 2em auto;
+                    }
+                }
+
+                img {
+
+                }
+            }
+        }
+    }
+}
+
 @media screen and (min-width: 800px) {
     #forkongithub {
         position: absolute;

@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="PHP 7" />
+        <meta property="og:url" content="https://catchy.io/slides/PHP-7.html" />
+        <meta property="og:description" content="Presentation of 'PHP 7' by Patrick Allaert at PHPBenelux 2016 (Belgium)" />
+        <meta property="og:site_name" content="catchy.io" />
+        <meta property="og:image" content="https://catchy.io/slides/img/php-7/presentation_thumbnail.jpg" />
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image:src" content="https://catchy.io/slides/img/php-7/presentation_thumbnail.jpg">
+        <meta name="twitter:title" content="catchy.io slides - PHP 7">
+        <meta name="twitter:description" content="Presentation of 'PHP 7' by Patrick Allaert at PHPBenelux 2016 (Belgium)">
+        <meta name="twitter:creator" content="@catchy_io">
+        <meta name="twitter:site" content="@catchy_io">
+
+        <title>PHP 7 - PHPBenelux 2016, Belgium</title>
+
+        <meta name="description" content="Presentation of 'PHP 7' by Patrick Allaert at PHPBenelux 2016 (Belgium)">
+        <meta name="author" content="Patrick Allaert">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+
+        <link rel="stylesheet" href="css/catchy.css">
+        <link rel="stylesheet" href="css/theme/league.css" id="theme">
+
+        <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+            var allCharts = [];
+
+            if (window.location.protocol != "file:") {
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-49964131-4', 'auto');
+                ga('send', 'pageview');
+            }
+            $(function () {
+                $("body").keypress(
+                    function (e) {
+                        switch (e.keyCode) {
+                            // key "g"
+                            case 103:
+                                $("section.history").addClass("star-wars");
+                                break;
+                            // key "r"
+                            case 114:
+                                $("section.history").removeClass("star-wars");
+                                break;
+                        }
+                    }
+                );
+            });
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <script src="js/highcharts/adapters/standalone-framework.js"></script>
+        <script src="js/highcharts/highcharts.js"></script>
+        <script src="js/highcharts/modules/exporting.js"></script>
+
+        <style>
+            @import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+        </style>
+    </head>
+
+    <body class="php-7 phpbenelux" itemscope itemtype="http://schema.org/TechArticle">
+        <meta itemprop="datePublished" content="2016-01-29"/>
+        <meta itemprop="headline" content="Presentation of 'PHP 7' by Patrick Allaert at PHPBenelux 2016 (Belgium)"/>
+        <meta itemprop="image" content="https://catchy.io/slides/img/php-7/presentation_thumbnail.jpg" />
+        <meta itemprop="thumbnailUrl" content="https://catchy.io/slides/img/php-7/presentation_thumbnail.jpg" />
+        <div itemprop="publication" itemscope itemtype="http://schema.org/PublicationEvent">
+            <meta itemprop="name" content="PHP 7"/>
+            <meta itemprop="startDate" content="2016-01-29T17:10:00+01:00"/>
+            <meta itemprop="endDate" content="2016-01-29T18:10:00+01:00"/>
+            <meta itemprop="url" content="https://catchy.io/slides/PHP-7.html"/>
+            <meta itemprop="duration" content="PT1H"/>
+            <meta itemprop="inLanguage" content="en"/>
+            <div itemprop="superEvent" itemscope itemtype="http://schema.org/EducationEvent">
+                <meta itemprop="name" content="PHPBenelux 2016 Conference"/>
+                <meta itemprop="startDate" content="2016-01-29"/>
+                <meta itemprop="endDate" content="2016-01-30"/>
+                <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+                    <meta itemprop="name" content="Hotel Ter Elst"/>
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <meta itemprop="name" content="Hotel Ter Elst"/>
+                        <meta itemprop="streetAddress" content="Kattenbroek 1"/>
+                        <meta itemprop="postalCode" content="2650"/>
+                        <meta itemprop="addressLocality" content="Edegem"/>
+                        <meta itemprop="addressRegion" content="Flanders"/>
+                        <meta itemprop="addressCountry" content="Belgium"/>
+                    </div>
+                </div>
+                <div itemprop="organizer" itemscope itemtype="http://schema.org/Organization">
+                    <meta itemprop="name" content="PHPBenelux"/>
+                    <meta itemprop="url" content="https://conference.phpbenelux.eu/"/>
+                </div>
+            </div>
+        </div>
+        <div class="reveal">
+            <div class="slides">
+                <section class="first">
+                    <meta itemprop="name" content="PHP 7"/>
+
+                    <h1>PHP<sub>Episode VII: The Force Awakens</sub></h1>
+                </section>
+                <section data-background="lib/img/logo/catchy.io.background.png" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <meta itemprop="email" content="patrickallaert@php.net"/>
+                    <meta itemprop="image" content="https://pbs.twimg.com/profile_images/344513261567775460/348b5193864dc076fac43a9141e36ceb.jpeg"/>
+                    <h2>Hello, I'm <span itemprop="givenName">Patrick</span> <span itemprop="familyName">Allaert</span></h2>
+                    <p><a href="https://twitter.com/patrick_allaert/">@patrick_allaert</a>, <span itemprop="jobTitle">CTO</span> of <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization"><meta itemprop="logo" content="lib/img/logo/catchy.io.logo.png"/><a href="https://catchy.io/" itemprop="url"><span itemprop="name">catchy.io</span></a></span>.</p>
+                    <ul class="fragment">
+                        <li>Dealing with PHP/Linux for +15 years</li>
+                        <li>Author of the PECL extension: <a href="https://pecl.php.net/package/APM">APM for PHP</a></li>
+                        <li>PHP internals enthusiast</li>
+                    </ul>
+                </section>
+                <section class="history">
+                    <div id="crawl-help">
+                        <p>Press 'g' to see the animation, 'r' to reset it.</p>
+                    </div>
+
+                    <h1>PHP<sub>Episode VII: The Force Awakens</sub></h1>
+
+                    <div id="crawl">
+                        <div class="content">
+                            <p>
+                                A long time ago, in 1968, in a town far far away (Qeqertarsuaq, Greenland), a little boy named "Rasmus Lerdorf" came
+                                to life.
+                            </p>
+                            <img src="http://lerdorf.com/pics/rl.jpg" alt="Rasmus Lerdorf" style="float: right; width: 25%; margin-left: 1em;"/>
+                            <p>
+                                Who would have thought, at that time, that this little boy would have his signature behind 82% of what will
+                                be called: "The World Wide Web"?
+                            </p>
+
+
+                            <h2>The origins</h2>
+                            <p>
+                                At the age of 26, in 1994, Rasmus possessed a set of binaries written in C he called "Personal Home Page Tools" (PHP Tools),
+                                originally used for tracking visits to his online résumé.
+                            </p>
+
+                            <h2>Share the source, Luke!</h2>
+                            <p>
+                                In June of 1995, Rasmus released publicly the source code of "PHP Tools" and in the same year, expanded it and
+                                changed its name to "FI", short for "Forms Interpreter".
+                            </p>
+
+                            <p>
+                                "FI" only lived for a few months before he released, in October 1995, a complete rewrite of it and named it "Personal
+                                Home Page Construction Kit", bringing back the name "PHP".
+                            </p>
+
+                            <h2>Episode II: From a suite of tools to a programming language</h2>
+                            <p>
+                                One complete makeover after, Rasmus introduced "PHP/FI" (combining the names of past releases) in April of 1996, and
+                                the result is an evolution from a suite of tools into a web programming language featuring built-in support for many
+                                databases (DBM, mSQL and Postgres95), cookies and user-defined function.
+                            </p>
+
+                            <pre><code class="php">
+&lt;!--include /text/header.html--&gt;
+
+&lt;!--getenv HTTP_USER_AGENT--&gt;
+&lt;!--ifsubstr $exec_result Mozilla--&gt;
+    Hey, you are using Netscape!&lt;p&gt;
+&lt;!--endif--&gt;
+
+&lt;!--sql database select * from table where user='$username'--&gt;
+&lt;!--ifless $numentries 1--&gt;
+    Sorry, that record does not exist&lt;p&gt;
+&lt;!--endif exit--&gt;
+    Welcome &lt;!--$user--&gt;!&lt;p&gt;
+    You have &lt;!--$index:0--&gt; credits left in your account.&lt;p&gt;
+
+&lt;!--include /text/footer.html--&gt;</code></pre>
+
+                            <p>
+                                In June of the same year, PHP/FI was given a version 2.0 status
+                            </p>
+
+                            <h2>Episode III: Building of an Empire</h2>
+                            <img src="http://static.zend.com/cmsdata/about-zend/leadership-page/andi-312x312px.jpg" style="float: right; margin-left: 1em; width: 30%;"/>
+                            <img src="http://static.zend.com/cmsdata/about-zend/leadership-page/zeev-312x312px.jpg" style="float: right; margin-left: 1em; width: 30%; clear: right;    "/>
+                            <p>
+                                About one year later, in 1997, two Jedis - Andi Gutmans and Zeev Suraski - joined the project and collaborated with
+                                Rasmus to begin yet another complete rewrite of the underlying parser.
+                            </p>
+                            <p>
+                                PHP&nbsp;3.0 is officially launched in June 1998 and the result is a completely new language recursively named "PHP:
+                                Hypertext Preprocessor", that closely resembles PHP as it exists today, featuring object-oriented programming support.
+                            </p>
+
+                            <h2>Episode IV: A New Hope</h2>
+                            <p>
+                                In May 2000, PHP&nbsp;4.0, the first version powering the "Zend Engine", got released and provided highly improved
+                                performance over PHP&nbsp;3 as well as support for more web servers, HTTP sessions, output buffering, more secure ways
+                                of handling user input and several new language constructs.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h1>Episode V?</h1>
+                    <section>
+                        <div class="fragment">
+                            <p>
+                                July 2004: <strong>PHP&nbsp;5.0</strong> is announced with the "Zend Engine 2" featuring:
+                            </p>
+                            <ul>
+                                <li>a very new <strong>object model</strong>, including the Standard PHP Library (SPL),</li>
+                                <li>a revamped XML support, including <strong>SimpleXML</strong> and built-in <strong>SOAP extension</strong>,</li>
+                                <li>the new <strong>MySQLi</strong> API</li>
+                                <li>and <strong>SQLite</strong> is bundled directly into PHP.</li>
+                            </ul>
+                        </div>
+                    </section>
+                    <section>
+                        <p>
+                            November 2005: <strong>PHP&nbsp;5.1</strong>:
+                        </p>
+                        <ul>
+                            <li>Greatly improved the performance,</li>
+                            <li><strong>PDO</strong> is available by default</li>
+                            <li>and got a complete rewrite of <strong>date</strong> handling code.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>
+                            November 2006: <strong>PHP&nbsp;5.2</strong>:
+                        </p>
+                        <ul>
+                            <li>greatly improved (again) the performance thanks to a new <strong>memory manager</strong>,</li>
+                            <li>many new features around: <strong>JSON, Zip, Filter and DateTime</strong>.</li>
+                        </ul>
+                    </section>
+                    <section style="font-size: 0.8em;">
+                        <p>
+                            June 2009: <strong>PHP&nbsp;5.3</strong> comes with many new concepts and improvements:
+                        </p>
+                        <ul>
+                            <li>\namespaces,</li>
+                            <li>anonymous functions (closures):<pre><code class="php">$f = function () { return "closures" }</code></pre></li>
+                            <li>the ternary operator<pre><code> $test ? "ifTrue" : "ifFalse"</code></pre></li>
+                            <li>Late Static Binding (LSB)</li>
+                            <li>memory usage greatly reduced thanks to a new <strong>Garbage Collector</strong></li>
+                            <li>mysqlnd,</li>
+                            <li>and the famous <strong>goto</strong> keyword</li>
+                        </ul>
+
+                    </section>
+                    <section>
+                        <p>
+                            March 2012: <strong>PHP&nbsp;5.4</strong> gets rid of many deprecated language features and implement new features:
+                        </p>
+
+                        <ul>
+                            <li>Goodbye <em>"Safe mode"</em>, <em>"register_globals"</em> and <em>"magic quotes"</em></li>
+                            <li>Traits: a mechanism for code reuse,</li>
+                            <li>short array syntax notation ("<code>[]</code>"),</li>
+                            <li><code>E_ALL</code> welcomed <code>E_STRICT</code>,</li>
+                            <li>built-in test webserver in CLI,</li>
+                            <li>a whole bunch of optimizations making it really faster.</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <p>June 2013: <strong>PHP&nbsp;5.5</strong> provided:</p>
+                        <ul>
+                            <li><strong>Zend OPcache</strong>: a native opcode caching extension,</li>
+                            <li><strong>Generators</strong>: the benefit of iterators, without the overhead/need to write a class (implementing the Iterator interface),</li>
+                            <li>the <code>finally</code> keyword to be used in <code>try/catch</code> statements,</li>
+                            <li>a <strong>simplified Password Hashing API</strong> (<code>password_*()</code>),</li>
+                        </ul>
+                    </section>
+
+                    <section style="font-size: 0.85em;">
+                        <p>August 2014: <strong>PHP&nbsp;5.6</strong>, the latest and last 5.x version featured:</p>
+                        <ul>
+                            <li><strong>Variadic functions</strong>,<pre><code class="php">function sum(...$numbers)</code></pre></li>
+                            <li>Function and constant importing (with the <code>use</code> keyword) <pre><code>use const Name\Space\FOO;
+use function Name\Space\f;
+
+echo FOO . f();</code></pre></li>
+                            <li><strong>phpdbg</strong>, an interactive integrated debugger,</li>
+                            <li>exponentiation with the <strong><code>**</code></strong> operator,</li>
+                            <li>Constant scalar expressions: <pre><code>const PI_2 = 2 * M_PI;</code></pre></li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Episode VI</h1>
+                    <section>
+                        <div class="fragment">
+                            <p>PHP&nbsp;6 planned to include native Unicode support <strong>everywhere</strong>!</p>
+                            <p class="fragment">Project started in 2005 and leaded by Andrei Zmievski.</p>
+                        </div>
+                    </section>
+                    <section>
+                        <p>Many difficulties encountered in the implementation:</p>
+                        <ul>
+                            <li>High memory usage,</li>
+                            <li>poor performance,</li>
+                            <li>controversial use of UTF-16 (to ease compatibility with ICU library).</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>PHP&nbsp;6 "trunk" moved to a branch in March 2010 (R.I.P.), PHP&nbsp;6 will never be released and PHP&nbsp;5.4 will succeed to PHP&nbsp;5.3 instead.</p>
+                    </section>
+                    <section>
+                        <p>If you really want to know about PHP&nbsp;6...</p>
+                    </section>
+
+                    <section>
+                        <p>You can read about it:</p>
+                        <img src="img/php-7/php-6-and-mysql-5-for-dynamic-web-sites-visual-quickpro-guide.jpeg" height="230"/>
+                        <img src="img/php-7/php-6-fast-and-easy-web-dev.jpeg" height="230"/>
+                        <img src="img/php-7/professional-php6.jpg" height="230"/>
+                        <img src="img/php-7/php-6-and-mysql-bible.jpeg" height="230"/>
+                        <img src="img/php-7/php-6-mysql-programming.jpg" height="230"/>
+                    </section>
+
+                    <section>
+                        <p>You can even be a PHP&nbsp;6 Certified Engineer (Thanks <a href="https://roave.com/">Roave</a>!)</p>
+                        <img src="img/php-7/php-6-certified.png" width="305"/>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Episode VII</h1>
+                    <section>
+                        <h2 class="fragment">PERFORMANCE</h2>
+                    </section>
+
+                    <section>
+                        <p>PHP 7 is up to twice as fast as PHP&nbsp;5.6</p>
+                        <p>Memory usage significantly reduced</p>
+                    </section>
+
+                    <section>
+                        <h2>Features</h2>
+                    </section>
+
+                    <section>
+                        <pre style="font-size: 0.55em; width: 95%;"><code style="max-height: none;">&lt;?php
+
+declare(strict_types=1);
+
+function ThrowableBuilder(string $message = null, int $code = 0)
+    : Throwable {
+    return new class ($message ?? "Oops") extends Exception {
+        public function __construct(string $message, int $code = 0) {
+            parent::__construct($message, $code <=> 0);
+        }
+    };
+}
+
+$getPrivateAttributeClosure = function (string $attribute) {
+    return $this->$attribute;
+};
+
+var_dump($getPrivateAttributeClosure->call(ThrowableBuilder(), "message"));</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Scalar Type Hints</h2>
+                        <img class="fragment" src="img/php-7/thumbwrestling.jpg" width="40%"/>
+                        <p class="fragment">RFC accepted with 69% of "yes" vote (2/3 is required).</p>
+                        <p class="fragment"><small>(Ask me why I voted "no" after this talk)</small></p>
+                    </section>
+                    <section>
+
+                        <h2>Coercive Scalar Type Hints (default)</h2>
+                        <pre><code>function logmsg(string $msg, int $level, float $severity) {
+    var_dump($msg);      // string(1) "1"
+    var_dump($level);    // int(2)
+    var_dump($severity); // float(3)
+}
+logmsg(1, "2.5 bananas", 3);</code></pre>
+                        <pre><code class="shell nohighlight" data-trim style="font-size:0.9em;">Notice: A non well formed numeric value encountered in file on line 2</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Strict Scalar Type Hints</h2>
+		<pre><code class="php">declare(strict_types=1);
+/*...*/
+logmsg(1, "2.5", 3);</code></pre>
+		<pre><code class="shell nohighlight">Fatal error: Uncaught TypeError: Argument 1 passed
+to logmsg() must be of the type string, integer given,
+called in file on line 7 and defined in file:3
+Stack trace:
+#0 file(7): logmsg(1, '2.5', 3)
+#1 {main}
+thrown in file on line 2</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Return types</h2>
+                        <pre><code class="php">function get_config(): array {
+    return 42;
+}
+get_config();</code></pre>
+		                <pre><code class="shell nohighlight">Fatal error: Uncaught TypeError: Return value of get_config() must be
+of the type array, integer returned in file:2
+Stack trace:
+#0 file(4): get_config()
+#1 {main}
+thrown in file on line 2</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Persistent cache for OPCache</h2>
+                        <p>When activated, using FooBar.php would cause the file FooBar.php.bin to be created on disk (under <code>opcache.file_cache</code>).</p>
+                    </section>
+
+                    <section>
+                        <pre><code class="shell nohighlight" style="font-size:0.78em;">/var/tmp
+└── 7eeb6fe88104116c27c5650ddd83abf0phar:
+    └── usr
+        └── local
+            └── bin
+                └── composer
+                    ├── bin
+                    │   └── composer.bin
+                    └── src
+                       ├── bootstrap.php.bin
+                       └── Composer
+                           ├── Command
+                           │   ├── AboutCommand.php.bin
+                           │   ├── ArchiveCommand.php.bin
+                           │   ├── ClearCacheCommand.php.bin
+                           │   ├── Command.php.bin
+                           │   ├── ConfigCommand.php.bin
+                           │   ├── CreateProjectCommand.php.bin
+                           │   ├── DependsCommand.php.bin
+                           │   ├── DiagnoseCommand.php.bin
+                           │   ├── DumpAutoloadCommand.php.bin
+                           │   ├── GlobalCommand.php.bin
+                           │   ├── Helper
+                           │   │   └── DialogHelper.php.bin
+                           │   ├── HomeCommand.php.bin
+                           │   ├── InitCommand.php.bin
+                           │   ├── InstallCommand.php.bin
+                           │   ├── LicensesCommand.php.bin
+                           │   ├── RemoveCommand.php.bin
+                           │   ├── RequireCommand.php.bin
+                           │   ├── RunScriptCommand.php.bin
+                           │   ├── SearchCommand.php.bin
+                           │   ├── SelfUpdateCommand.php.bin
+                           │   ├── ShowCommand.php.bin
+                           │   ├── StatusCommand.php.bin
+                           │   ├── UpdateCommand.php.bin
+                           │   └── ValidateCommand.php.bin
+                           ├── Composer.php.bin
+                           ├── Console
+                           │   └── Application.php.bin
+                           ├── Factory.php.bin
+                           ├── IO
+                           │   ├── BaseIO.php.bin
+                           │   ├── ConsoleIO.php.bin
+                           │   └── IOInterface.php.bin
+                           ├── Package
+                           │   ├── BasePackage.php.bin
+                           │   └── PackageInterface.php.bin
+                           ├── Script
+                           │   └── ScriptEvents.php.bin
+                           └── Util
+                               └── ErrorHandler.php.bin
+    </code></pre>
+                    </section>
+
+                    <section>
+                        <h2>New exception hierarchy</h2>
+                        <ul>
+                            <li>
+                                <code>Throwable</code> interface
+                                <ul>
+                                    <li><code>Exception</code> class (userland exceptions)</li>
+                                    <li>
+                                        <code>Error</code> class (PHP internal exceptions)
+                                        <ul>
+                                            <li><code>TypeError</code> class</li>
+                                            <li><code>ParseError</code> class</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Anonymous classes</h2>
+                        <pre><code class="php">return new class($controller) implements Page {
+    public function __construct($controller) {
+        /* ... */
+    }
+    /* ... */
+};</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Null coalescing operator</h2>
+                        <pre><code class="php">// Fetches the value of $_GET['user'] and returns 'nobody'
+// if it does not exist.
+$username = $_GET['user'] ?? 'nobody';
+// This is equivalent to:
+$username = isset($_GET['user']) ? $_GET['user'] : 'nobody';</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Spaceship operator</h2>
+
+                        <img src="img/php-7/TIE_Advanced_x1_starfighter.png" height="400"/>
+                    </section>
+                    <section>
+                        <h2>Spaceship operator</h2>
+
+                        <p style="font-size: 9em;">&lt;=&gt;</p>
+                    </section>
+                    <section>
+                        <h2>Spaceship operator</h2>
+
+                        <pre><code class="php">// Integers
+echo 1 <=> 1; // 0
+echo 1 <=> 2; // -1
+echo 2 <=> 1; // 1
+
+// Strings
+echo "a" <=> "a"; // 0
+echo "a" <=> "b"; // -1
+echo "b" <=> "a"; // 1</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Closure::call()</h2>
+                        <p>More performant, shorthand way of temporarily binding an object scope to a closure and invoking it.</p>
+                        <pre><code class="php">class A {
+    private $x = 1;
+}
+
+// Pre PHP 7 code
+$getXCB = function() {
+    return $this->x;
+};
+$getX = $getXCB->bindTo(new A, 'A'); // intermediate closure
+echo $getX();
+
+// PHP 7+ code
+echo (function() {return $this->x;})->call(new A);</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Removal of many deprecated features</h2>
+                        <ul style="font-size: 0.45em;">
+                            <li>ext/mysql (use ext/mysqli or ext/pdo_mysql instead)</li>
+                            <li>ext/ereg (use ext/pcre instead)</li>
+                            <li>PHP 4 constructor syntax (use __construct instead)</li>
+                            <li>preg_replace() eval modifier (use preg_replace_callback() instead)</li>
+                            <li>Assignment of new by reference</li>
+                            <li>Scoped calls of non-static methods from incompatible $this context</li>
+                            <li>dl() in php-fpm</li>
+                            <li>set_magic_quotes_runtime() and magic_quotes_runtime()</li>
+                            <li>set_socket_blocking() (use stream_set_blocking() instead)</li>
+                            <li>mcrypt_generic_end() (use mcrypt_generic_deinit() instead)</li>
+                            <li>mcrypt_ecb, mcrypt_cbc, mcrypt_cfb and mcrypt_ofb (use mcrypt_encrypt() and mcrypt_decrypt() instead)</li>
+                            <li>datefmt_set_timezone_id() and IntlDateFormatter::setTimeZoneID() (use datefmt_set_timezone() or IntlDateFormatter::setTimeZone() instead)</li>
+
+                            <li>xsl.security_prefs (use XsltProcessor::setSecurityPrefs() instead)</li>
+                            <li>iconv.input_encoding, iconv.output_encoding, iconv.internal_encoding,
+                            mbstring.http_input, mbstring.http_output and mbstring.internal_encoding
+                            (use php.input_encoding, php.internal_encoding and php.output_encoding instead)</li>
+
+                            <li>$is_dst parameter of the mktime() and gmmktime() functions</li>
+                            <li># style comments in ini files (use ; style comments instead)</li>
+                            <li>String category names in setlocale() (use LC_* constants instead)</li>
+                            <li>Unsafe curl file uploads (use CurlFile instead)</li>
+                            <li>PDO::PGSQL_ATTR_DISABLE_NATIVE_PREPARED_STATEMENT driver option
+                            (use PDO::ATTR_EMULATE_PREPARES instead)</li>
+                            <li>CN_match and SNI_server_name stream context option (use peer_name instead)</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>New reserved words</h2>
+                        <p>You may have to rename a few things if you used:</p>
+                        <ul style="font-size: 0.8em;">
+                            <li>bool</li>
+                            <li>int</li>
+                            <li>float</li>
+                            <li>string</li>
+                            <li>null</li>
+                            <li>false</li>
+                            <li>true</li>
+                            <li>resource</li>
+                            <li>object</li>
+                            <li>mixed</li>
+                            <li>numeric</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Semantic of complex expressions always left-to-right</h2>
+                        <p>The interpretation order is now consistent in <strong>every</strong> cases.</p>
+                        <pre><code class="php">$$foo['bar']['baz'] // interpreted as ($$foo)['bar']['baz']
+$foo->$bar['baz']   // interpreted as ($foo->$bar)['baz']
+$foo->$bar['baz']() // interpreted as ($foo->$bar)['baz']()
+Foo::$bar['baz']()  // interpreted as (Foo::$bar)['baz']()</code></pre>
+
+                        <pre class="fragment"><code class="php">${$foo['bar']['baz']}
+$foo->{$bar['baz']}
+$foo->{$bar['baz']}()
+Foo::{$bar['baz']}()</code></pre>
+                    </section>
+
+                    <section>
+                        <pre><code class="php">$foo()['bar']()
+[$obj1, $obj2][0]->prop
+$foo['bar']::$baz
+$foo::$bar::$baz
+$foo->bar()::baz()
+foo()()
+$foo->bar()()
+Foo::bar()()
+$foo()()
+(function() { ... })()
+($obj->closure)()</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Unicode Codepoint Escape Syntax</h2>
+
+                        <pre><code class="php">"Cats: \u{1F638} \u{1F639} \u{1F63A}";</code></pre>
+                        <pre style="font-size: 2.5em;"><code class="shell nohighlight">"Cats: 😸 😹 😺"</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Group <code>use</code> declarations</h2>
+
+                        <pre><code class="php">// PHP &lt; 7
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
+// PHP &gt;= 7
+use Symfony\Component\HttpFoundation\{
+    JsonResponse, RedirectResponse, Request, Response,
+    ResponseHeaderBag, Session\Session, StreamedResponse
+};</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Zero cost assertions</h2>
+                        <p><code>zend.assertions</code>:</p>
+                        <ul>
+                            <li>1: generate and execute code (development mode)</li>
+                            <li>0: generate code but jump around it at runtime</li>
+                            <li>-1: do not generate code (production mode)</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Migrating to PHP&nbsp;7</h1>
+                    <section>
+                        <div class="fragment">
+                            <h2>set_exception_handler() accepts Throwable</h2>
+                            <pre><code class="php">// PHP 5 era code that will break.
+function handler(Exception $e) { ... }
+set_exception_handler('handler');
+
+// PHP 5 and 7 compatible.
+function handler($e) { ... }
+
+// PHP 7 only.
+function handler(Throwable $e) { ... }</code></pre>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>Handling of indirections changed to "left-to-right"</h2>
+
+                        <table style="font-size: 0.65em;">
+                            <tr>
+                                <th>Expression</th>
+                                <th>PHP 5 interpretation</th>
+                                <th>PHP 7 interpretation</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code class="code">$$foo['bar']['baz']</code>
+                                </td>
+                                <td>
+                                    <code class="code">${$foo['bar']['baz']}</code>
+                                </td>
+                                <td>
+                                    <code class="code">($$foo)['bar']['baz']</code>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <code class="code">$foo-&gt;$bar['baz']</code>
+                                </td>
+                                <td>
+                                    <code class="code">$foo-&gt;{$bar['baz']}</code>
+                                </td>
+                                <td>
+                                    <code class="code">($foo-&gt;$bar)['baz']</code>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <code class="code">$foo-&gt;$bar['baz']()</code>
+                                </td>
+                                <td>
+                                    <code class="code">$foo-&gt;{$bar['baz']}()</code>
+                                </td>
+                                <td>
+                                    <code class="code">($foo-&gt;$bar)['baz']()</code>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <code class="code">Foo::$bar['baz']()</code>
+                                </td>
+                                <td>
+                                    <code class="code">Foo::{$bar['baz']}()</code>
+                                </td>
+                                <td>
+                                    <code class="code">(Foo::$bar)['baz']()</code>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <h2>E_STRICT notices severity changes</h2>
+                        <table style="font-size: 0.6em;">
+                            <tr>
+                                <th>Situation</th>
+                                <th>New level/behaviour</th>
+                            </tr>
+
+                            <tr>
+                                <td>Indexing by a resource</td>
+                                <td><strong><code>E_NOTICE</code></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>Abstract static methods</td>
+                                <td>Notice removed, triggers no error</td>
+                            </tr>
+
+                            <tr>
+                                <td>"Redefining" a constructor</td>
+                                <td>Notice removed, triggers no error</td>
+                            </tr>
+
+                            <tr>
+                                <td>Signature mismatch during inheritance</td>
+                                <td><strong><code>E_WARNING</code></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>Same (compatible) property in two used traits</td>
+                                <td>Notice removed, triggers no error</td>
+                            </tr>
+
+                            <tr>
+                                <td>Accessing static property non-statically</td>
+                                <td><strong><code>E_NOTICE</code></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>Only variables should be assigned by reference</td>
+                                <td><strong><code>E_NOTICE</code></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>Only variables should be passed by reference</td>
+                                <td><strong><code>E_NOTICE</code></strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>Calling non-static methods statically</td>
+                                <td><strong><code>E_DEPRECATED</code></strong></td>
+                            </tr>
+                        </table>
+                    </section>
+
+                    <section>
+                        <h2>Use Phan</h2>
+                        <p>A static analyzer for PHP that is capable of detecting some issues while migrating from PHP&nbsp;5 to PHP&nbsp;7.</p>
+                    </section>
+                </section>
+
+                <section class="questions">
+                    <h2>Questions?</h2>
+                </section>
+
+                <section class="thanks">
+                    <h2>Thanks</h2>
+                    <p>Don't forget to rate this talk on <a itemprop="discussionUrl" href="https://joind.in/10065">https://joind.in/10065</a></p>
+
+                    <h3>Stay in touch!</h3>
+                    <p><a href="https://twitter.com/patrick_allaert/">@patrick_allaert</a></p>
+                    <p><a href="mailto:patrickallaert@php.net">patrickallaert@php.net</a></p>
+                </section>
+            </div>
+
+            <footer class="catchy">
+                <a href="http://catchy.io"><img src="lib/img/logo/catchy.io.logo.png" alt="Catchy.io logo" id="logo">
+                <span>&mdash;</span>
+                Monitoring for <code>E_ALL</code>
+                </a>
+            </footer>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+        </script>
+
+    </body>
+</html>
